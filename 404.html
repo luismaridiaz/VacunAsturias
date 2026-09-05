@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VacunAsturias · Guía profesional</title>
+  <meta name="theme-color" content="#0b4f6c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="description" content="Apoyo a la consulta de vacunación en Asturias para profesionales sanitarios.">
+  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVmFjdW5Bc3R1cmlhcyIsInNob3J0X25hbWUiOiJWYWN1bkFzdCIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMGI0ZjZjIiwidGhlbWVfY29sb3IiOiIjMGI0ZjZjIn0=">
+  <style>
+    :root {
+      --bg: #f3f7f8; --ink: #16323d; --muted: #5b717a; --card: #fff;
+      --line: #d7e4e8; --brand: #0b4f6c; --warnbg: #fff6e8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; padding-bottom: 2.5rem; }
+    header { background: linear-gradient(160deg, #07384d 0%, #0b4f6c 70%); color: #fff; padding: 1.1rem 1rem 1rem; position: sticky; top: 0; z-index: 20; }
+    header h1 { font-size: 1.35rem; font-weight: 650; }
+    header p { opacity: .85; font-size: .82rem; margin-top: .25rem; }
+    .search { margin-top: .85rem; display: flex; gap: .4rem; background: rgba(255,255,255,.12); border-radius: 999px; padding: .2rem .2rem .2rem .9rem; }
+    .search input { flex: 1; border: 0; background: transparent; color: #fff; outline: none; font-size: .95rem; padding: .55rem 0; }
+    .search input::placeholder { color: rgba(255,255,255,.65); }
+    .search button { border: 0; background: #1a8a6a; color: #fff; border-radius: 999px; padding: .45rem 1rem; font-weight: 600; cursor: pointer; }
+    .tabs { display: flex; gap: .15rem; overflow-x: auto; background: #eaf2f4; position: sticky; top: 118px; z-index: 15; border-bottom: 1px solid var(--line); scrollbar-width: none; }
+    .tabs button { flex: 0 0 auto; border: 0; background: transparent; padding: .7rem .85rem; color: #4d6670; font-size: .82rem; font-weight: 550; white-space: nowrap; cursor: pointer; border-bottom: 3px solid transparent; }
+    .tabs button.active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 700; }
+    .wrap { max-width: 740px; margin: 0 auto; padding: .9rem 1rem; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.05rem; margin-bottom: .85rem; }
+    .card h3 { font-size: 1.02rem; margin-bottom: .35rem; }
+    .card p, .card li { font-size: .92rem; line-height: 1.5; color: #1e3943; }
+    .card ul { padding-left: 1.15rem; margin: .3rem 0; }
+    .tag { display: inline-block; background: #e6f1f4; color: #0b4f6c; border-radius: 999px; padding: .12rem .55rem; font-size: .72rem; font-weight: 600; margin: .18rem .18rem 0 0; }
+    .note { background: var(--warnbg); border-left: 4px solid #d29a3a; padding: .55rem .8rem; border-radius: 8px; margin-top: .5rem; font-size: .86rem; color: #5d3d0d; }
+    .disc { background: #eef6f8; border-left: 4px solid var(--brand); padding: .55rem .8rem; border-radius: 8px; margin: .5rem 0; font-size: .86rem; }
+    label { font-size: .85rem; font-weight: 600; display: block; margin-bottom: .3rem; }
+    input[type=date] { width: 100%; padding: .55rem .7rem; border: 1px solid var(--line); border-radius: 10px; font-size: .95rem; }
+    .result { margin-top: .7rem; }
+    footer { text-align: center; color: var(--muted); font-size: .75rem; padding: 1.2rem .8rem 0; line-height: 1.45; }
+    h2 { font-size: 1.18rem; margin: .15rem 0 .7rem; }
+    .muted { color: var(--muted); font-size: .82rem; }
+    .dl { display: grid; grid-template-columns: 7.2rem 1fr; gap: .28rem .6rem; margin-top: .45rem; font-size: .86rem; }
+    .dl dt { color: var(--muted); font-weight: 650; }
+    .chips { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: .8rem; }
+    .chips button { border: 1px solid var(--line); background: var(--card); color: inherit; border-radius: 999px; padding: .28rem .7rem; font-size: .78rem; cursor: pointer; }
+    .chips button.on { background: var(--brand); color: #fff; border-color: var(--brand); }
+    details.card { padding: .2rem 1.05rem .85rem; }
+    details.card summary { cursor: pointer; font-weight: 650; padding: .8rem 0 .2rem; list-style: none; }
+    details.card summary::-webkit-details-marker { display: none; }
+    .pocket { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .pocket.card {
+      background: linear-gradient(180deg, #fff 0%, #f7fbff 100%);
+      border: 2px solid #1a6b8a;
+      box-shadow: 0 8px 24px rgba(11,79,108,.12);
+    }
+    table.bolsillo {
+      width: 100%; border-collapse: separate; border-spacing: 3px; font-size: .73rem; min-width: 560px;
+      color: #142028;
+    }
+    table.bolsillo th, table.bolsillo td {
+      border: 0; padding: .38rem .28rem; text-align: center; vertical-align: middle; line-height: 1.2;
+      border-radius: 8px;
+    }
+    table.bolsillo th { color: #fff; font-weight: 750; letter-spacing: .02em; text-shadow: 0 1px 0 rgba(0,0,0,.15); }
+    table.bolsillo th.edad { background: #123047; text-align: left; white-space: nowrap; min-width: 5.4rem; }
+    table.bolsillo td.edad {
+      text-align: left; font-weight: 800; background: #123047; color: #fff;
+      white-space: nowrap; padding-left: .5rem;
+    }
+    table.bolsillo caption {
+      caption-side: top; text-align: left; font-weight: 800; font-size: 1rem;
+      padding: .15rem .2rem .55rem; color: #0b3d55;
+    }
+    table.bolsillo .c-hexa { background: #e85d04; }
+    table.bolsillo .c-vnc { background: #0077b6; }
+    table.bolsillo .c-menb { background: #c1121f; }
+    table.bolsillo .c-men4 { background: #6a4c93; }
+    table.bolsillo .c-rv { background: #2a9d8f; }
+    table.bolsillo .c-srp { background: #d00000; }
+    table.bolsillo .c-var { background: #e9c46a; color: #3d2e00; text-shadow: none; }
+    table.bolsillo .c-td { background: #2d6a4f; }
+    table.bolsillo .c-vpi { background: #4cc9f0; color: #083344; text-shadow: none; }
+    table.bolsillo .c-vph { background: #ff006e; }
+    table.bolsillo .c-gripe { background: #4361ee; }
+    table.bolsillo .c-covid { background: #4895ef; }
+    table.bolsillo .c-hz { background: #9b2226; }
+    table.bolsillo td.empty { background: #eef2f5; color: #c5ced4; }
+    table.bolsillo td.dot {
+      font-weight: 800; color: #fff; font-size: .95rem;
+      box-shadow: inset 0 0 0 2px rgba(255,255,255,.35);
+    }
+    table.bolsillo td.dot.c-var, table.bolsillo td.dot.c-vpi { color: #1b1400; }
+    table.bolsillo td.soft {
+      font-weight: 700; color: #fff; opacity: .92; font-size: .68rem;
+    }
+    table.bolsillo td.soft.c-var { color: #3d2e00; }
+    .leyenda { font-size: .75rem; line-height: 1.5; margin-top: .55rem; }
+    .swatch { display: inline-block; width: .7rem; height: .7rem; border-radius: 3px; vertical-align: -1px; margin-right: .15rem; }
+    .print-pocket, button.print-pocket {
+      border: 0; background: #1a8a6a; color: #fff; border-radius: 999px;
+      padding: .35rem .85rem; font-weight: 650; font-size: .8rem; cursor: pointer;
+    }
+    table.bolsillo tr.age-row { cursor: pointer; }
+    table.bolsillo tr.age-row:hover td.edad { filter: brightness(1.15); }
+    table.bolsillo tr.age-row.on td.edad { outline: 2px solid #f4d35e; }
+    .age-detail {
+      display: none; margin: .35rem 0 .6rem; padding: .55rem .7rem;
+      background: #123047; color: #fff; border-radius: 10px; font-size: .82rem; line-height: 1.45;
+    }
+    .age-detail.on { display: block; }
+    @media print {
+      @page { size: A4 landscape; margin: 8mm; }
+      header, .tabs, footer, .search, .print-pocket, .disc { display: none !important; }
+      body { background: #fff; }
+      .wrap { max-width: none; padding: 0; }
+      table.bolsillo { min-width: 0; font-size: 8pt; }
+      .age-detail { display: none !important; }
+      .age-detail.on { display: block !important; color: #000; background: #f3f3f3; }
+    }
+    .abbr, table.bolsillo th[data-exp] {
+      cursor: help; border-bottom: 1px dotted currentColor;
+    }
+    .abbr { font-weight: 650; color: #0b4f6c; }
+    #abbrTip {
+      position: fixed; z-index: 80; max-width: 22rem; display: none;
+      background: #123047; color: #fff; padding: .7rem .85rem; border-radius: 12px;
+      font-size: .84rem; line-height: 1.4; box-shadow: 0 10px 28px rgba(0,0,0,.28);
+    }
+    #abbrTip b { display: block; margin-bottom: .2rem; font-size: .9rem; }
+    @media print {
+      header, .tabs, footer, .search { display: none !important; }
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#0d1b22; --ink:#e6eef1; --muted:#9bb0b8; --card:#15262e; --line:#2a414b; --warnbg:#2a2418; }
+      .tabs { background: #102028; }
+      .card p, .card li { color: #d7e4e8; }
+      .tag { background: #1d3640; color: #b7d7e2; }
+      .search { background: rgba(255,255,255,.08); }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>VacunAsturias</h1>
+  <p>Guía de consulta · profesionales SESPA / Atención Primaria</p>
+  <div class="search">
+    <input id="q" type="search" placeholder="Buscar vacuna, pauta, grupo de riesgo…" aria-label="Buscar">
+    <button id="qb" type="button">Buscar</button>
+  </div>
+</header>
+<nav class="tabs" id="tabs">
+  <button class="active" data-tab="consulta">Consulta</button>
+  <button data-tab="bolsilloP">Bolsillo 0–18</button>
+  <button data-tab="bolsilloA">Bolsillo adulto</button>
+  <button data-tab="calendario">Calendario</button>
+  <button data-tab="embarazo">Gestación</button>
+  <button data-tab="mayores">Adulto</button>
+  <button data-tab="catalogo">Fichas</button>
+  <button data-tab="rescate">Migrante / rescate</button>
+  <button data-tab="personal">Personal sanitario</button>
+  <button data-tab="riesgo">Inmunosupresión</button>
+  <button data-tab="heridas">Herida / tétanos</button>
+  <button data-tab="garrapata">Garrapata</button>
+  <button data-tab="fuera">Fuera de anexo</button>
+  <button data-tab="horizonte">Horizonte</button>
+  <button data-tab="fuentes">Fuentes</button>
+</nav>
+<main class="wrap">
+  <div id="out"></div>
+  <footer>
+    Herramienta de apoyo. No sustituye ficha técnica, circular vigente ni historia clínica.
+    Contrastar con BOPA 19/02/2025, Astursalud y CIMA/AEMPS. Campañas estacionales variables.
+  </footer>
+</main>
+<div id="abbrTip" role="status"></div>
+<script>
+const SECTIONS = {
+consulta: {
+title: "Apoyo a la consulta (edad cronológica)",
+html: `
+<div class="disc">Uso profesional. Lista hitos del anexo sistemático asturiano (Res. 19/02/2025). No sustituye cartilla, HCE ni valoración de CI, intercambiabilidad o grupos de riesgo.</div>
+<div class="card">
+  <label for="dob">Fecha de nacimiento del paciente</label>
+  <input id="dob" type="text" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10" autocomplete="bday" aria-describedby="dobHint">
+  <p class="muted" id="dobHint" style="margin-top:.35rem">Escriba <strong>dd/mm/aaaa</strong> (día/mes/año). Ejemplo: 07/03/2018. No use el formato estadounidense mm/dd/aaaa.</p>
+  <div class="result" id="ageResult"></div>
+</div>
+<div class="card">
+  <h3>Antes de administrar</h3>
+  <ul>
+    <li>Confrontar HCE/cartilla (fechas y lotes reales, no solo edad teórica).</li>
+    <li>Descartar enfermedad febril grave, anafilaxia a componente y, si es vacuna viva, embarazo o inmunosupresión intensa.</li>
+    <li>Intervalos mínimos y coadministración: ficha del preparado disponible en el centro.</li>
+    <li>Cohortes: MenB nacidos ≥01/11/2022; rotavirus ≥01/01/2025.</li>
+    <li>Registrar lote, caducidad, punto de inyección. Observación 15 min (30 min si alergia relevante).</li>
+  </ul>
+</div>
+<div class="card">
+  <h3>Financiación en consulta</h3>
+  <p>Indicaciones del anexo y de circulares de campaña: coste usuario 0 €. Recuerdo de <strong>MenB en adolescente</strong> (CAV-AEP): <strong>no figura en el anexo sistemático de Asturias</strong>. Si se indica, informar de prescripción y adquisición a cargo del usuario (prensa 2026: orden de ~106 €/dosis en farmacia; confirmar PVP).</p>
+</div>`
+},
+bolsilloP: {
+title: "Calendario de bolsillo · pediatría (Asturias)",
+html: `
+<div class="disc">Pulse la edad para el detalle. <strong>Imprimir ficha</strong> abre el diálogo del navegador: elija <em>Guardar como PDF</em> y orientación <em>horizontal</em>. Hay PDFs A4 apaisados listos para archivo.</div>
+<div class="card pocket" id="pocketP">
+<p style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.4rem">
+  <button type="button" class="print-pocket">Imprimir ficha</button>
+  <span class="muted">● sistemática · (R) rescate · Camp. = circular</span>
+</p>
+<table class="bolsillo" id="calP">
+<caption>0–18 años · Principado de Asturias · pulse la edad</caption>
+<thead>
+<tr>
+<th class="edad">Edad</th>
+<th class="c-hexa abbr" data-key="Hexa">Hexa</th><th class="c-vnc abbr" data-key="VNC">VNC</th><th class="c-menb abbr" data-key="MenB">MenB</th><th class="c-men4 abbr" data-key="Men4">Men4</th><th class="c-rv abbr" data-key="RV">RV</th><th class="c-srp abbr" data-key="SRP">SRP</th><th class="c-var abbr" data-key="Var">Var</th><th class="c-td abbr" data-key="Tdpa">Tdpa</th><th class="c-vpi abbr" data-key="VPI">VPI</th><th class="c-vph abbr" data-key="VPH">VPH</th><th class="c-gripe abbr" data-key="Gripe">Gripe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="age-row" data-d="Tdpa prenatal (3.er trimestre; si pretérmino, protocolo local desde ~sem. 20). Gripe cualquier trimestre en campaña. COVID si circular. No vivas."><td class="edad">Prenatal</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-td">●</td><td class="empty"></td><td class="empty"></td><td class="soft c-gripe">Camp.</td></tr>
+<tr class="age-row" data-d="Hexa + VNC + MenB (cohorte ≥01/11/2022) + RV (cohorte ≥01/01/2025). No hexa a los 6 m."><td class="edad">2 m</td><td class="dot c-hexa">●</td><td class="dot c-vnc">●</td><td class="dot c-menb">●¹</td><td class="empty"></td><td class="dot c-rv">●²</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td></tr>
+<tr class="age-row" data-d="Hexa + VNC + MenB + MenACWY + RV. Coadministrar en sitios distintos."><td class="edad">4 m</td><td class="dot c-hexa">●</td><td class="dot c-vnc">●</td><td class="dot c-menb">●</td><td class="dot c-men4">●</td><td class="dot c-rv">●</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td></tr>
+<tr class="age-row" data-d="VNC20 (3.ª de la 3+1). Gripe de campaña 6–59 m. 3.ª RV solo si RotaTeq. Nirsevimab según circular, no es vacuna."><td class="edad">6 m</td><td class="empty"></td><td class="dot c-vnc">●³</td><td class="empty"></td><td class="empty"></td><td class="soft c-rv">±²</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="soft c-gripe">Camp.⁴</td></tr>
+<tr class="age-row" data-d="Refuerzo hexa + VNC. Cierra la primovacunación 2+1 / 3+1."><td class="edad">11 m</td><td class="dot c-hexa">●</td><td class="dot c-vnc">●</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td></tr>
+<tr class="age-row" data-d="SRP 1.ª + MenACWY + MenB refuerzo. Edad mínima SRP 12 m salvo brote."><td class="edad">12 m</td><td class="empty"></td><td class="empty"></td><td class="dot c-menb">●</td><td class="dot c-men4">●</td><td class="empty"></td><td class="dot c-srp">●</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td></tr>
+<tr class="age-row" data-d="Varicela 1.ª. Intervalo con SRP si no se pusieron juntas: según ficha (≥4 sem.)."><td class="edad">15 m</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-var">●</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td></tr>
+<tr class="age-row" data-d="SRP 2.ª + varicela 2.ª. En Asturias es a los 3 años, no a los 4."><td class="edad">3 a</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-srp">●</td><td class="dot c-var">●</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td></tr>
+<tr class="age-row" data-d="Tdpa + VPI. No hexa a esta edad."><td class="edad">6 a</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-td">●</td><td class="dot c-vpi">●</td><td class="empty"></td><td class="empty"></td></tr>
+<tr class="age-row" data-d="VPH 1 dosis ambos sexos. Rescate 1 dosis hasta 18 a si sana; ID: 3 dosis 0-2-6. Varicela si incompleta y sin enfermedad."><td class="edad">10 a</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="soft c-var">(R)</td><td class="empty"></td><td class="empty"></td><td class="dot c-vph">●⁵</td><td class="empty"></td></tr>
+<tr class="age-row" data-d="Tdpa + MenACWY. MenB adolescente: AEP sí, anexo Asturias no (informar coste si se indica)."><td class="edad">13 a</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-men4">●</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-td">●</td><td class="empty"></td><td class="empty"></td><td class="empty"></td></tr>
+</tbody>
+</table>
+<div class="age-detail" id="detP"></div>
+<p class="leyenda">
+<span class="swatch" style="background:#e85d04"></span>Hexa
+<span class="swatch" style="background:#0077b6"></span>VNC
+<span class="swatch" style="background:#c1121f"></span>MenB
+<span class="swatch" style="background:#6a4c93"></span>Men4
+<span class="swatch" style="background:#2a9d8f"></span>RV
+<span class="swatch" style="background:#d00000"></span>SRP
+<span class="swatch" style="background:#e9c46a"></span>Var
+<span class="swatch" style="background:#2d6a4f"></span>Tdpa
+<span class="swatch" style="background:#4cc9f0"></span>VPI
+<span class="swatch" style="background:#ff006e"></span>VPH
+<span class="swatch" style="background:#4361ee"></span>Gripe<br>
+¹ MenB: cohorte nacidos ≥01/11/2022. Recuerdo ~12 a: AEP sí / anexo Asturias no.<br>
+² RV: cohorte ≥01/01/2025. 2 o 3 dosis según preparado (Rotarix 2; RotaTeq 3 → 6 m si pentavalente).<br>
+³ VNC20 en Asturias desde 02/05/2024: pauta 3+1 (2-4-6-11 m).<br>
+⁴ Gripe sistemática 6–59 meses en temporada. VRS: nirsevimab según circular (no es vacuna clásica).<br>
+⁵ VPH: 1 dosis, ambos sexos; rescate financiado hasta 18 a.<br>
+Hexa lactante = 2+1 (no hay hexa a los 6 m). SRP/Var recuerdo a los <strong>3 años</strong>, no a los 4.
+</p>
+</div>`
+},
+bolsilloA: {
+title: "Calendario de bolsillo · gestación y adulto",
+html: `
+<div class="disc">Pulse la <strong>fila de edad</strong> para el detalle. Plegable. Imprimir = solo esta ficha.</div>
+<div class="card pocket" id="pocketA">
+<p style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.4rem">
+  <button type="button" class="print-pocket">Imprimir ficha</button>
+  <span class="muted">● sistemática · (R) rescate · Camp. = circular</span>
+</p>
+<table class="bolsillo" id="calA">
+<caption>Gestación y adulto · pulse la edad</caption>
+<thead>
+<tr>
+<th class="edad">Edad / situación</th>
+<th class="c-td abbr" data-key="Tdpa">Td / Tdpa</th><th class="c-srp abbr" data-key="SRP">SRP</th><th class="c-var abbr" data-key="Var">Var</th><th class="c-vph abbr" data-key="VPH">VPH</th><th class="c-gripe abbr" data-key="Gripe">Gripe</th><th class="c-covid abbr" data-key="COVID">COVID</th><th class="c-hz abbr" data-key="HZ">HZ</th><th class="c-vnc abbr" data-key="VNC">VNC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="age-row" data-d="Tdpa cada gestación. Gripe cualquier trimestre en temporada. COVID si circular. No SRP/varicela/LAIV."><td class="edad">Gestación</td><td class="dot c-td">Tdpa ●</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="soft c-gripe">Camp.</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="empty"></td></tr>
+<tr class="age-row" data-d="Rescates Td/SRP/varicela. VPH solo ≤18 a. Gripe/VNC/HZ si riesgo o ID. VRS adulto: no está en el anexo infantil; ver Fuera de anexo."><td class="edad">14–59 a</td><td class="soft c-td">Td (R)⁶</td><td class="soft c-srp">(R)⁷</td><td class="soft c-var">(R)⁸</td><td class="soft c-vph">(R)⁹</td><td class="soft c-gripe">Riesgo</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="soft c-vnc">Riesgo</td></tr>
+<tr class="age-row" data-d="Gripe sistemática desde 60 a. Resto: rescates y riesgo."><td class="edad">60–64 a</td><td class="soft c-td">Td (R)⁶</td><td class="soft c-srp">(R)⁷</td><td class="soft c-var">(R)⁸</td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="soft c-vnc">Riesgo</td></tr>
+<tr class="age-row" data-d="Td (nota anexo si pauta infantil completa) + gripe + Shingrix 2 dosis / 8 sem. Financiado a esta edad."><td class="edad">65 a</td><td class="soft c-td">Td⁶</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="dot c-hz">●¹⁰</td><td class="empty"></td></tr>
+<tr class="age-row" data-d="Gripe anual. HZ no se repite aquí salvo ID o si faltó a los 65."><td class="edad">66–79 a</td><td class="soft c-td">Td</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="empty"></td></tr>
+<tr class="age-row" data-d="Segunda cohorte Shingrix del anexo: 2 dosis / 8 sem. + gripe."><td class="edad">80 a</td><td class="soft c-td">Td</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="dot c-hz">●¹⁰</td><td class="empty"></td></tr>
+<tr class="age-row" data-d="Gripe. HZ ya cubierto a los 80 si se administró."><td class="edad">81–85 a</td><td class="soft c-td">Td</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="empty"></td></tr>
+<tr class="age-row" data-d="VNC sistemática del anexo + gripe. Completar Td si falta."><td class="edad">≥86 a</td><td class="soft c-td">Td</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="dot c-vnc">●</td></tr>
+</tbody>
+</table>
+<div class="age-detail" id="detA"></div>
+<p class="leyenda">
+<span class="swatch" style="background:#2d6a4f"></span>Td/Tdpa
+<span class="swatch" style="background:#d00000"></span>SRP
+<span class="swatch" style="background:#e9c46a"></span>Var
+<span class="swatch" style="background:#ff006e"></span>VPH
+<span class="swatch" style="background:#4361ee"></span>Gripe
+<span class="swatch" style="background:#4895ef"></span>COVID
+<span class="swatch" style="background:#9b2226"></span>HZ
+<span class="swatch" style="background:#0077b6"></span>VNC<br>
+⁶ Verificar estado. Completar hasta 5 dosis de tétanos si procede. Dosis Td a los 65 a si pauta infantil completa (nota anexo). Incluir Tdpa al menos 1 vez en la vida adulta / cada gestación.<br>
+⁷ SRP: 2 dosis (o 1 si ya hay una) en nacidos en España ≥1978 sin pauta, y en no nacidos en ES sin documento.<br>
+⁸ Varicela: si no hay evidencia, serología; 2 dosis / 4 sem. si negativa. En ≥18 a la estrategia de migrantes prioriza serología antes de vacunar.<br>
+⁹ VPH: pulsar la sigla. Rescate = 1 dosis financiada hasta los 18 a si no consta; si hay inmunodepresión (ID), 3 dosis (0-2-6), no 1.<br>
+¹⁰ HZ (Shingrix): 2 dosis separadas 8 semanas a los 65 y a los 80 años. También ID según protocolo.<br>
+Sanitario: gripe anual de campaña; HB + anti-HBs; SRP 2 dosis o IgG+; varicela 2 dosis o evidencia; Td/Tdpa al día.<br>
+Sin cartilla: 1.ª visita prioritaria SRP + VPI + Td/Tdpa (estrategia CSP 16/06/2026).
+</p>
+</div>`
+},
+calendario: {
+title: "Calendario sistemático Asturias (anexo BOPA 2025)",
+html: `
+<div class="disc">Fuente: Resolución 19/02/2025, Consejería de Salud (BOPA 4-III-2025). Hexavalente lactante = 2+1 (2, 4 y 11 meses). No hay hexa a los 6 meses.</div>
+<div class="card"><h3>2 meses</h3>
+<p><span class="tag">Hexavalente (DTPa-VPI-Hib-HB)</span><span class="tag">VNC</span><span class="tag">MenB</span><span class="tag">Rotavirus</span></p>
+<p class="muted">MenB: cohorte ≥01/11/2022. RV: cohorte ≥01/01/2025 (2 o 3 dosis según preparado).</p></div>
+<div class="card"><h3>4 meses</h3>
+<p><span class="tag">Hexavalente</span><span class="tag">VNC</span><span class="tag">MenB</span><span class="tag">MenACWY</span><span class="tag">Rotavirus</span></p></div>
+<div class="card"><h3>6 meses</h3>
+<p><span class="tag">VNC</span><span class="tag">Gripe</span> (temporada; 6–59 meses)</p>
+<p class="muted">VNC en pauta 2-4-6-11 si VNC20 (Asturias desde 02/05/2024, CAV-AEP). No hexa a esta edad.</p></div>
+<div class="card"><h3>11 meses</h3>
+<p><span class="tag">Hexavalente</span><span class="tag">VNC</span></p></div>
+<div class="card"><h3>12 meses</h3>
+<p><span class="tag">SRP</span><span class="tag">MenACWY</span><span class="tag">MenB</span></p></div>
+<div class="card"><h3>15 meses</h3>
+<p><span class="tag">Varicela</span></p></div>
+<div class="card"><h3>3 años</h3>
+<p><span class="tag">SRP</span><span class="tag">Varicela</span></p>
+<p class="muted">No a los 4 años en el anexo vigente.</p></div>
+<div class="card"><h3>6 años</h3>
+<p><span class="tag">Tdpa</span><span class="tag">VPI</span></p></div>
+<div class="card"><h3>10 años</h3>
+<p><span class="tag">VPH</span> 1 dosis, ambos sexos. <span class="tag">Varicela</span> si pauta incompleta y sin enfermedad documentada.</p></div>
+<div class="card"><h3>13 años</h3>
+<p><span class="tag">Tdpa</span><span class="tag">MenACWY</span></p></div>
+<div class="card"><h3>VRS (inmunización pasiva)</h3>
+<p>Nirsevimab según circular de temporada (2025-26: &lt;6 meses de la cohorte y alto riesgo). No sustituye el resto del calendario.</p></div>`
+},
+embarazo: {
+title: "Gestación, puerperio y recién nacido",
+html: `
+<div class="card">
+  <h3>Indicaciones en la embarazada</h3>
+  <ul>
+    <li><strong>Tdpa:</strong> sistemática en el anexo prenatal. En la práctica española suele priorizarse el 3.er trimestre; si hay riesgo de pretérmino, muchas guías admiten desde ~semana 20. Seguir protocolo local.</li>
+    <li><strong>Gripe:</strong> cualquier trimestre en temporada, si la circular la incluye.</li>
+    <li><strong>COVID-19:</strong> según campaña y factores de riesgo, no como dosis fija de por vida.</li>
+    <li><strong>VRS:</strong> nirsevimab al RN/lactante es la estrategia financiada en circular asturiana 2025-26. Abrysvo materna: autorizada; no asumir financiación sistemática sin circular del año.</li>
+  </ul>
+  <div class="note">Contraindicadas en gestación: vivas (SRP, varicela, gripe atenuada nasal, fiebre amarilla salvo criterio de viaje de alto riesgo). Si falta SRP/varicela, programar posparto y anticoncepción según ficha.</div>
+</div>
+<div class="card">
+  <h3>Convivientes</h3>
+  <p>Gripe en temporada si grupo diana o si el lactante es de riesgo. No administrar vivas al inmunodeprimido conviviente; el resto del calendario del lactante no se retrasa por la lactancia materna.</p>
+</div>`
+},
+mayores: {
+title: "Adulto y persona mayor",
+html: `
+<div class="card"><h3>14–64 años (sistemático / rescate)</h3>
+<ul>
+  <li><strong>Td:</strong> verificar; completar hasta 5 dosis si procede.</li>
+  <li><strong>SRP:</strong> sin pauta previa y nacidos en España ≥1978: 2 dosis (o 1 si ya consta una), intervalo ≥4 semanas.</li>
+  <li><strong>Varicela:</strong> sin evidencia de inmunidad → serología; si negativa, 2 dosis / 4 semanas.</li>
+  <li><strong>Gripe:</strong> anexo desde 60–64; antes si factor de riesgo o circular.</li>
+</ul></div>
+<div class="card"><h3>65 años</h3>
+<p><span class="tag">Td</span> <span class="tag">Gripe anual</span> <span class="tag">HZ</span> 2 dosis / 8 semanas</p></div>
+<div class="card"><h3>66–79 años</h3>
+<p><span class="tag">Td</span> <span class="tag">Gripe anual</span></p></div>
+<div class="card"><h3>80 años</h3>
+<p><span class="tag">Td</span> <span class="tag">Gripe anual</span> <span class="tag">HZ</span> 2 dosis / 8 semanas</p></div>
+<div class="card"><h3>81–85 años</h3>
+<p><span class="tag">Td</span> <span class="tag">Gripe anual</span></p></div>
+<div class="card"><h3>≥86 años</h3>
+<p><span class="tag">Td</span> <span class="tag">Gripe anual</span> <span class="tag">VNC</span></p></div>
+<div class="note">COVID-19: no es dosis fija en la tabla de edad del BOPA. Seguir circular de temporada. Coadministración con gripe permitida cuando ambas estén indicadas.</div>
+<div class="card">
+  <h3>HZ recurrente (≥2 episodios) — indicación de vacuna</h3>
+  <ul>
+    <li>Dos o más brotes = marcador de riesgo. Indicación clínica de <strong>Shingrix</strong> a cualquier edad, también si parece sano.</li>
+    <li>Pauta: 2 dosis / 2 meses (en ID 1–2 meses). Esperar a que ceda la erupción. Inmunocompetente: suele 6–12 meses. ID de alto riesgo de nuevo brote: a veces desde ~3 meses.</li>
+    <li>En joven o recidivante: buscar ID no diagnosticada o fármaco IS.</li>
+    <li>Anexo financiado: 65 y 80 + ID protocolizada. Recurrencia fuera de esas edades: prescripción; confirmar SESPA.</li>
+    <li>No en gestación. IgG VVZ no predice protección frente a reactivación. Ig polivalente no trata el HZ.</li>
+  </ul>
+</div>`
+},
+rescate: {
+title: "Migrante, refugiado o sin registro vacunal",
+html: `
+<div class="disc">Criterio operativo: <strong>sin documento legible = no vacunado</strong>. El relato verbal no cuenta. Dosis escritas válidas si respetan edad mínima e intervalo mínimo; <strong>nunca se reinicia</strong> una pauta documentada. Priorizar combinadas y coadministración. Fuentes: estrategia CSP/Ministerio 16/06/2026; infografía de migrantes; calendario acelerado CISNS; cap. 11–12 CAV-AEP (ago-2026); protocolo refugiados Asturias 2023.</div>
+<div class="card">
+  <h3>Reglas de consulta</h3>
+  <ul>
+    <li>Validar cartilla. Dudosa o ilegible → vacunar.</li>
+    <li>No retrasar por serologías, salvo excepciones: <strong>HA y HB</strong> si procede de zona de alta endemia; <strong>varicela ≥18 años</strong> (estrategia 2026). Evitar retrasos por el resto.</li>
+    <li>Sospecha de ID o VIH no tratado: inactivadas pronto; vivas diferidas hasta valoración.</li>
+    <li>Gestante: derivar a AP/matrona; Tdpa + gripe de campaña; no vivas.</li>
+    <li>Registrar identidad (idealmente NIE) para trazabilidad. Calendarios de origen: immunizationdata.who.int.</li>
+    <li>Llegada reciente (Programa de Atención Humanitaria): 1.ª dosis de prioritarias en las <strong>3 primeras semanas</strong>.</li>
+  </ul>
+</div>
+<div class="card">
+  <h3>1.ª visita — vacunas prioritarias (CSP 2026)</h3>
+  <p><span class="tag">SRP / TV</span> <span class="tag">VPI</span> <span class="tag">Td o Tdpa</span></p>
+  <p>Al menos 1 dosis de cada una si no hay registro. Completar con pauta acelerada si la estancia se prolonga. En &lt;5 años en convivencia colectiva, si no consta protección frente a HA: valorar hepatitis A (estrategia 2026).</p>
+</div>
+<div class="card">
+  <h3>&lt;7 años, sin registro (marco de rescate)</h3>
+  <ul>
+    <li><strong>Hexa / DTPa-VPI-Hib-HB:</strong> completar según edad (hexa usable según ficha, en la práctica hasta cumplir 7 años). Hib: 3 dosis si inicia &lt;12 m; 2 si 12–14 m; 1 si 15–59 m; no sistemática ≥5 años salvo riesgo.</li>
+    <li><strong>VNC:</strong> según edad de inicio (p. ej. 3–4 dosis si &lt;12 m con VNC20; 2 si 12–23 m; 1 si 24–59 m en niño sano). ≥6 años: solo riesgo.</li>
+    <li><strong>MenB / MenACWY:</strong> adaptar a edad y calendario asturiano (no asumir MenB sistemática en adolescente).</li>
+    <li><strong>RV:</strong> solo si aún está en ventana de ficha (inicio 6–12 sem.; cierre 24 o 33 sem.).</li>
+    <li><strong>SRP y varicela:</strong> desde 12 meses, 2 dosis (intervalo mín. 4 sem.; varicela en &lt;13 a a menudo 8–12 sem. según ficha).</li>
+    <li>Gripe/COVID/nirsevimab: si grupo de campaña.</li>
+  </ul>
+  <p class="muted">Intervalos mínimos habituales CISNS: HB 4 sem / 2 m; muchas primarias 4–8 sem; 3.ª Td/hexa a menudo ≥6 m de la 2.ª. Consultar tabla acelerada vigente, no memorizar de esta pantalla.</p>
+</div>
+<div class="card">
+  <h3>7–18 años, sin registro (tabla acelerada CISNS)</h3>
+  <p>Esquema tipo (meses desde 1.ª visita):</p>
+  <ul>
+    <li><strong>Día 0:</strong> Tdpa (al menos la 1.ª de la serie de tétanos), VPI, HB, SRP, MenACWY, varicela, VPH si ≥10–12 años.</li>
+    <li><strong>1 mes:</strong> Td, VPI, HB, SRP (2.ª), varicela (2.ª).</li>
+    <li><strong>6 meses:</strong> Td (3.ª; intervalo 6–12 m respecto a la 2.ª), HB (3.ª).</li>
+  </ul>
+  <ul>
+    <li>Tétanos-difteria: 3 dosis de inicio (≥4 sem y luego ≥6 m) y programar hasta <strong>5 dosis de por vida</strong>.</li>
+    <li>VPI: 3 dosis si nunca vacunado.</li>
+    <li>SRP: 2 dosis ≥4 sem. (no nacidos en ES o sin documento: indicar 2 dosis; en nacidos ES el anexo usa ≥1978).</li>
+    <li>Varicela: 2 dosis si no inmunidad documentada.</li>
+    <li>VPH: 1 dosis hasta 18 años si no ID (ID: 3 dosis 0-2-6 desde los 9 años).</li>
+    <li>MenACWY: 1 dosis si ≥10 años y no consta.</li>
+  </ul>
+</div>
+<div class="card">
+  <h3>≥18 años, sin registro (tabla acelerada CISNS)</h3>
+  <ul>
+    <li><strong>SRP:</strong> 2 dosis ≥4 sem. si no nacido en España o sin documento. Nacido en ES: criterio del anexo (≥1978 sin pauta).</li>
+    <li><strong>Td:</strong> 3 dosis (0, 1 m, 6–12 m) y plan de 5 dosis vitales; incluir Tdpa al menos una vez.</li>
+    <li><strong>VPI:</strong> 3 dosis si nunca documentada (prioridad en procedencia de países con polio).</li>
+    <li><strong>HB:</strong> 0-1-6 si serología negativa o no hecha y hay indicación/riesgo. En alta endemia: serología antes si no retrasa la 1.ª visita de prioritarias.</li>
+    <li><strong>Varicela:</strong> serología si ≥18 años (estrategia 2026); 2 dosis si negativa.</li>
+    <li>Gripe, COVID-19, HZ, VNC: según edad y riesgo del calendario asturiano / campaña.</li>
+  </ul>
+</div>
+<div class="card">
+  <h3>Asturias — protocolo refugiados (2023) + calendario actual</h3>
+  <p>Tres pasos: 1) estado inicial, 2) calendario personalizado, 3) circuito (AP / punto de vacunación). Prioridad histórica local: sarampión-rubéola (SRP), polio, tétanos-difteria. Completar después el anexo 2025 (VNC, MenB/ACWY, VPH, varicela, HZ). Detalle de intervalos: “pautas aceleradas” en la guía técnica autonómica vigente en astursalud.es.</p>
+  <div class="note">Esta pantalla no sustituye las tablas 1–4 del PDF <em>Calendario acelerado de vacunaciones</em> del Ministerio ni el cap. 11 CAV-AEP. Ajustar al preparado disponible (hexa vs Tdpa+VPI) y a la edad de ficha.</div>
+</div>`
+},
+personal: {
+title: "Personal sanitario y sociosanitario",
+html: `
+<div class="card">
+  <h3>Objetivo</h3>
+  <p>Autoprotección, menor transmisión nosocomial y coherencia con lo que se indica al paciente. La obligatoriedad laboral la marca PRL y la circular del año, no esta herramienta.</p>
+</div>
+<div class="card">
+  <h3>Estado vacunal a documentar</h3>
+  <ul>
+    <li><strong>Gripe:</strong> anual en campaña (incluida en circular asturiana 2025-26 para sanitarios y sociosanitarios).</li>
+    <li><strong>COVID-19:</strong> según campaña y exposición; no asumir universalidad permanente.</li>
+    <li><strong>Hepatitis B:</strong> 0-1-6 + anti-HBs 1–2 meses tras la 3.ª. ≥10 mUI/ml = respondedor (no recuerdos de por vida). Si &lt;10: protocolo de no respondedor (ficha HB).</li>
+    <li><strong>SRP:</strong> 2 dosis o IgG+. Prioritario en pediatría, urgencias, obstetricia y brotes.</li>
+    <li><strong>Varicela:</strong> 2 dosis o enfermedad/serología documentada.</li>
+    <li><strong>Td/Tdpa:</strong> tétanos-difteria al día; Tdpa al menos una vez en la vida adulta si no consta.</li>
+  </ul>
+</div>
+<div class="card">
+  <h3>Exposición añadida</h3>
+  <ul>
+    <li>Microbiología / laboratorio: MenACWY y MenB según protocolo de PRL.</li>
+    <li>Cooperación o brote: HA, tifoidea, rabia, fiebre amarilla, mpox según exposición.</li>
+  </ul>
+  <div class="note">No afirmar obligatoriedad legal de gripe o COVID-19 en Asturias sin el documento laboral/circular vigente.</div>
+</div>
+<div class="card">
+  <h3>Protocolo no respondedor HB (sanitario / riesgo)</h3>
+  <ul>
+    <li>Punto de corte: <strong>anti-HBs &lt;10 mUI/ml</strong> medido <strong>1–2 meses</strong> tras completar 3 dosis. Si la serología es tardía, una dosis “recuerdo” + nueva serología distingue memoria de verdadero no respondedor.</li>
+    <li>Descartar infección: HBsAg (± anti-HBc) antes de revacunar.</li>
+    <li>Dos opciones CAV-AEP: <strong>1 dosis + serología</strong> y, si sigue &lt;10, completar 2 dosis (0 y 5 m); o <strong>serie nueva 0-1-6</strong> y serología 1–2 m después.</li>
+    <li>Tras <strong>~6 dosis</strong> y anti-HBs &lt;10: no respondedor. No más vacuna. Pinchazo / mucosa con fuente HBsAg+ o desconocida: <strong>IGHB 2 dosis</strong> (0 y 1 mes). Fuente HBsAg−: nada.</li>
+    <li>Diálisis e ID: control periódico; recuerdo si baja de 10. Vacuna de mayor carga o adyuvada (Fendrix) según protocolo de nefrología/PRL.</li>
+  </ul>
+</div>`
+},
+riesgo: {
+title: "Inmunosupresión: criterios operativos",
+html: `
+<div class="card">
+  <h3>Principio</h3>
+  <p>Individualizar según fármaco, dosis, tiempo y enfermedad de base. Lo siguiente es marco habitual CAV-AEP / programas de vacunación, no un protocolo único por principio activo.</p>
+  <ul>
+    <li><strong>Vivas</strong> (SRP, varicela, rotavirus, gripe nasal): en general CI si inmunosupresión intensa. Si es posible, administrar semanas-meses <em>antes</em> de iniciar el tratamiento.</li>
+    <li>Inactivadas, conjugadas, recombinantes, ARNm, toxoides: no CI por ser vivas; la respuesta puede ser subóptima. Preferible 1 mes antes o en valle de inmunosupresión.</li>
+  </ul>
+</div>
+<div class="card">
+  <h3>Prioridades frecuentes</h3>
+  <ul>
+    <li>Gripe anual y COVID-19 según campaña.</li>
+    <li>Neumococo: pauta actual de conjugada de valencia ampliada según protocolo vigente (no asumir siempre VNC13+PPSV23).</li>
+    <li>HB si serología negativa o anti-HBs insuficiente.</li>
+    <li>HZ (Shingrix) en inmunodeprimidos según indicación autonómica/nacional, no solo a 65 y 80 años.</li>
+    <li>Vacunar convivientes (gripe) como barrera.</li>
+  </ul>
+<div class="card">
+  <h3>Inmunoglobulinas (pasiva)</h3>
+  <ul>
+    <li><strong>IGHB:</strong> RN de madre HBsAg+ (vacuna + Ig, 12–24 h). Exposición de riesgo no vacunado: Ig + vacuna (&lt;72 h). No respondedor HB (6 dosis): 2 dosis IGHB si fuente + o desconocida.</li>
+    <li><strong>VZIG</strong> (o polivalente): ID expuesto a varicela.</li>
+    <li><strong>Sarampión:</strong> susceptible expuesto (&lt;6 días), sobre todo ID o vacuna CI.</li>
+    <li><strong>Ig reemplazo:</strong> déficit de Ac (IEI, LLC, mieloma, depleción B). Objetivo tipo IgG &gt;800 mg/dL; 400–600 mg/kg/mes (hematología).</li>
+  </ul>
+  <div class="note">Tras Ig: SRP/varicela ≥3 meses (sarampión, según dosis, hasta ~11–12 meses). Nirsevimab no interfiere. Vacuna e Ig el mismo día: sitios distintos. IGT de herida: pestaña Herida / tétanos.</div>
+</div>
+  <div class="note">Dejar pauta escrita (preventiva / AP / prescriptor del inmunosupresor). No iniciar ni omitir por esta pantalla.</div>
+</div>`
+},
+heridas: {
+title: "Herida y tétanos",
+html: `
+<div class="disc">Urgencias / AP. Contrastar con protocolo del centro. HZ recurrente está en Adulto y en la ficha Shingrix.</div>
+<div class="card pocket">
+  <h3>Herida y tétanos</h3>
+  <table class="bolsillo" style="min-width:420px">
+    <caption>Profilaxis según herida y pauta Td/Tdpa</caption>
+    <thead>
+      <tr><th class="edad">Pauta</th><th class="c-td">Limpia menor</th><th class="c-hz">Sucia / mayor</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="edad">≥3 dosis y &lt;5 años</td><td class="soft c-td">Nada</td><td class="soft c-td">Nada</td></tr>
+      <tr><td class="edad">≥3 dosis y ≥5 años</td><td class="soft c-td">Nada</td><td class="dot c-td">Td/Tdpa</td></tr>
+      <tr><td class="edad">≥3 dosis y ≥10 años</td><td class="dot c-td">Td/Tdpa</td><td class="dot c-td">Td/Tdpa</td></tr>
+      <tr><td class="edad">Incompleta / desconocida</td><td class="dot c-td">Vacuna (completar)</td><td class="dot c-hz">Vacuna + IGT</td></tr>
+    </tbody>
+  </table>
+  <p class="leyenda">Sucia/mayor: punción, tierra, heces, saliva, mordedura, desvitalizado, quemadura, fractura abierta, &gt;12 h. ID grave / VIH / UDVP: IGT en herida tetanígena aunque la pauta esté completa. IGT 250 UI IM (500 UI si alto riesgo, &gt;24 h, &gt;90 kg o quemadura). Vacuna e IGT en sitios distintos. Antibiótico no previene tétanos.</p>
+</div>
+<div class="card">
+  <h3>Herida abierta (pasos)</h3>
+  <ol>
+    <li>Hemostasia por presión 15–30 min si sangra.</li>
+    <li>Irrigar con agua o SF; extraer cuerpos extraños; desbridar tejido desvitalizado.</li>
+    <li>Clasificar herida + cartilla → tabla de tétanos.</li>
+    <li>Cierre primario no siempre (contaminada, mordedura, &gt;6–18 h: criterio local).</li>
+    <li>Derivar: sangrado no controlado, profundidad/cara/déficit, cuerpo extraño enclavado, mordedura, signos de infección, ID/diabetes/coagulopatía.</li>
+  </ol>
+</div>`
+},
+garrapata: {
+title: "Garrapata: extracción, Lyme, TBE, Crimea-Congo",
+html: `
+<div class="disc">Guía Sanidad marzo 2026 (ETG). No hay vacuna de Lyme. TBE no es sistemática en Asturias. FHCC: alerta urgente a Salud Pública. Desinsectación de fincas/ganado = veterinaria / empresa autorizada, no “casera”.</div>
+<div class="card">
+  <h3>Extraer la garrapata</h3>
+  <ol>
+    <li>Guantes. Si hay clínica hemorrágica o zona Hyalomma + fiebre: mascarilla y protección ocular.</li>
+    <li>Pinza de punta fina/roma, lo más cerca de la piel, sin aplastar el abdomen.</li>
+    <li>Tracción suave, constante, <strong>perpendicular</strong>. No girar. Esperar a que se suelte.</li>
+    <li>Si queda el rostro: no excavar de rutina; antiséptico y vigilar (a veces se elimina solo).</li>
+    <li>Agua + jabón + antiséptico. Manos. Anotar fecha, zona geográfica y si estaba repleta.</li>
+    <li>No guardar aplastándola. Si Salud Pública lo pide: bote cerrado (papel húmedo o alcohol 70 %).</li>
+  </ol>
+  <div class="note">No aceite, vaselina, laca, éter ni fuego: regurgita. No aplastar con los dedos (riesgo FHCC).</div>
+</div>
+<div class="card">
+  <h3>Lyme (Borrelia / Ixodes)</h3>
+  <p>En España <strong>no</strong> hay profilaxis antibiótica rutinaria. Observar el punto hasta 4–6 semanas (eritema migratorio).</p>
+  <p>Doxiciclina <strong>única</strong> 200 mg (&lt;72 h) solo si se reúnen: Ixodes probable + adherida ≥36 h o repleta + zona de alta endemicidad + no CI (embarazo; &lt;8 a controvertido). Consenso SEIMC: también si se manipuló o hay gran ansiedad. No previene anaplasma/babesia/FHCC.</p>
+  <p>Eritema migratorio: tratar (doxiciclina 10 días habitual). No hay vacuna humana comercial.</p>
+</div>
+<div class="card">
+  <h3>Encefalitis por garrapata (TBE / centroeuropea)</h3>
+  <ul>
+    <li>España: la guía 2026 indica <strong>sin casos humanos autóctonos</strong> ni virus detectado en garrapatas. Riesgo = viaje a centro/este/norte de Europa (abril–noviembre, campo).</li>
+    <li>Vacuna inactivada (TicoVac/FSME-Immun, Encepur) en vacunación internacional. 3 dosis; acelerada si el viaje apremia. Recuerdos 3–5 años.</li>
+    <li><strong>No</strong> hay pauta pospicadura. La Ig hiperinmune no se recomienda.</li>
+    <li>Lácteos no pasteurizados en zona endémica: otra vía.</li>
+  </ul>
+</div>
+<div class="card">
+  <h3>Fiebre hemorrágica Crimea-Congo</h3>
+  <ul>
+    <li>Vector: <em>Hyalomma</em>. Circula en España (casos autóctonos, sobre todo centro-sur y oeste; no es el cuadro típico de una picadura en Asturias, pero el protocolo es nacional).</li>
+    <li>No hay vacuna autorizada en ES ni antivírico específico de rutina.</li>
+    <li>Sospecha: fiebre + picadura/contacto ganado en zona de riesgo + hemorragia, plaquetopenia o coagulopatía precoz (a menudo &lt;9 días). Aislamiento de contacto y gotas; no manipular sangre fuera de circuito seguro; notificar <strong>urgente</strong> a Salud Pública; valorar UAAN.</li>
+    <li>Transmisión: picadura, aplastar la garrapata sin guante, sangre/tejidos de animal. Persona-persona por fluidos del enfermo.</li>
+  </ul>
+</div>
+<div class="card">
+  <h3>Desinsectación (FHCC / control vectorial)</h3>
+  <p>No es un aerosol de botiquín. Lo hace <strong>veterinaria + empresa autorizada + Salud Pública</strong>:</p>
+  <ul>
+    <li>Ganado y perros: ectoparasiticidas autorizados; no improvisar principio activo.</li>
+    <li>Naves, vehículos, zona de sacrificio: limpieza, desinfección y desinsectación según ficha del biocida y recomendación oficial de FHCC.</li>
+    <li>Entorno: reducir vegetación densa junto a paso de ungulados; no “fumigar el monte” por cuenta propia.</li>
+    <li>Persona: ropa clara y larga, calcetín sobre pantalón, DEET/icaridina en piel expuesta, revisar cuerpo al volver.</li>
+  </ul>
+</div>`
+},
+fuera: {
+title: "Fuera del anexo asturiano (prescripción)",
+html: `
+<div class="disc">Lo que sigue <strong>no</strong> copia listados genéricos de «no financiadas en España»: en Asturias RV y MenB infantil <strong>sí</strong> están en el anexo por cohorte. Contrastar circular SESPA y PVP.</div>
+<div class="card">
+  <h3>Financiado en Asturias (no decir «privada»)</h3>
+  <ul>
+    <li>Rotavirus: cohorte ≥01/01/2025.</li>
+    <li>MenB: cohorte ≥01/11/2022 (2-4-12 m). No el recuerdo adolescente.</li>
+    <li>VNC20 lactante desde 02/05/2024; VNC sistemática ≥86 a.</li>
+    <li>Shingrix a 65 y 80 + ID protocolizada.</li>
+    <li>Nirsevimab: campaña lactante, no vacuna clásica.</li>
+  </ul>
+</div>
+<div class="card">
+  <h3>A menudo prescripción / coste usuario</h3>
+  <ul>
+    <li><strong>MenB adolescente</strong> (CAV-AEP): no anexo. Informar ~106 €/dosis farmacia (prensa 2026; confirmar PVP).</li>
+    <li><strong>Shingrix &lt;65</strong> si no es ID financiada: recurrencia ≥2 brotes es indicación clínica; financiación, preguntar SESPA.</li>
+    <li><strong>VRS adulto</strong> (Arexvy / Abrysvo / mRESVIA): Ponencia 2025–26 prioriza muy alto riesgo (trasplante, diálisis, hematológico, ID, VIH avanzado), institucionalizados ≥60 e incluso ≥80 en algunas CCAA. Asturias: circular local, no asumir financiación universal ≥60.</li>
+    <li><strong>HA, viaje, FA, tifoidea, rabia, dengue, mpox:</strong> según destino y protocolo; a menudo privada.</li>
+  </ul>
+  <div class="note">Prescribir = utilidad + que no está en el anexo + coste aproximado + alternativa financiada si existe. No usar precios de otras CCAA como PVP asturiano.</div>
+</div>`
+},
+horizonte: {
+title: "Horizonte (no usar en consulta como si estuviera disponible)",
+html: `
+<div class="disc">Experimental o no comercializado en SESPA. No pautar. Datos a ago-2026.</div>
+<div class="card">
+  <h3>Vacuna personalizada de cáncer (ARNm)</h3>
+  <p><strong>Intismeran autogene</strong> (V940 / mRNA-4157, Moderna+Merck) + pembrolizumab: fase 3 INTerpath-001 (ago-2026) cumplió SLR y SLEM en melanoma resecado IIB–IV vs pembrolizumab solo. Fase 2b KEYNOTE-942 a 5 años: HR recurrencia ~0,51. Individualizada (hasta ~34 neoantígenos del tumor). <strong>No aprobada</strong> para prescribir en AP.</p>
+</div>
+<div class="card">
+  <h3>VPH terapéutica (ADN)</h3>
+  <p><strong>VGX-3100</strong>: fase 3 China (HPV-303CHN, may-2026) positiva en HSIL por VPH-16/18 (regresión + aclaramiento viral). No es la VPH profiláctica del anexo. No disponible en calendario español.</p>
+</div>
+<div class="card">
+  <h3>CMV — no adelantar</h3>
+  <p><strong>mRNA-1647</strong> (Moderna): fase 3 CMVictory <strong>falló</strong> (eficacia 6–23 % en mujeres 16–40 a); programa congénito interrumpido oct-2025. Queda investigación en trasplante. No decir en consulta que «está cerca» para prevenir CMV congénito.</p>
+</div>
+<div class="card">
+  <h3>Otras líneas (preclínica / fase temprana)</h3>
+  <ul>
+    <li>VIH: CD40.HIVRI.Env (dirige Ag a células dendríticas); ICVAX (ADN + reservorios). Sin fase 3 positiva de eficacia preventiva.</li>
+    <li>Gripe «universal»: dianas en neuraminidasa conservada; conjugados tipo CD388. No sustituyen la vacuna de temporada.</li>
+    <li>VEB: interés oncológico y EM; sin producto de consulta.</li>
+  </ul>
+</div>`
+},
+fuentes: {
+title: "Fuentes, límites y notificación",
+html: `
+<div class="card">
+  <h3>Documentos primarios</h3>
+  <ul>
+    <li>Resolución 19/02/2025, Consejería de Salud del Principado (calendario para toda la vida). BOPA 4-III-2025, 2025-01434.</li>
+    <li>Astursalud: calendario 2025 y circulares gripe/COVID-19 y nirsevimab 2025-26.</li>
+    <li>CAV-AEP: ficha autonómica de Asturias (VNC20 desde 02/05/2024) y listado de comercializadas 2026.</li>
+    <li>Fichas técnicas AEMPS/EMA (CIMA).</li>
+    <li>Adjudicaciones acuerdo marco SNS 2026: precios de adquisición pública, no PVP.</li>
+    <li>Estrategia CSP 16/06/2026 e infografía de vacunación en migrantes/refugiados (llegada irregular).</li>
+    <li>Calendario acelerado CISNS (tablas 7–18 años y &gt;18 años) y cap. 11–12 CAV-AEP (actualización ago-2026).</li>
+    <li>Protocolo de vacunación de personas refugiadas, Asturias, noviembre 2023.</li>
+  </ul>
+</div>
+<div class="card">
+  <h3>Certeza</h3>
+  <p><strong>Alta</strong> para edades del anexo BOPA y para marcas autorizadas en España.</p>
+  <p><strong>Moderada</strong> para el lote concreto del centro este mes y para la circular 2026-27 si aún no está publicada.</p>
+  <p><strong>No fijada aquí:</strong> PVP exacto de farmacia asturiana; obligatoriedad laboral de gripe.</p>
+</div>
+<div class="card">
+  <h3>Farmacovigilancia</h3>
+  <p>RAM: <strong>www.notificaram.es</strong>. Conservar cadena de frío 2–8 °C salvo ficha que indique otra cosa. No congelar las inactivadas habituales.</p>
+</div>`
+}
+};
+
+const VACCINES = [
+{g:"infantil",n:"Hexavalente",prot:"DTPa + VPI + Hib + HB",
+tipo:"Toxoides + Pa acelular + VPI inactivada + Hib conjugada + HB recombinante",
+via:"IM",marcas:"Infanrix Hexa (GSK), Hexyon (Sanofi), Vaxelis (MSD)",
+ast:"2, 4 y 11 meses. Financiada.",
+pauta:"2+1 en lactante. Recuerdo Tdpa+VPI a los 6 años.",
+coste:"0 € en calendario.",
+ea:"Dolor/eritema local, irritabilidad, fiebre. 1–3 días. Anafilaxia excepcional.",
+ci:"Anafilaxia a dosis o componente. Diferir si fiebre alta."},
+{g:"infantil",n:"Neumococo conjugada (VNC)",prot:"ENI por serotipos vacunales",
+tipo:"Conjugada",via:"IM",
+marcas:"Prevenar 20 (Pfizer). También Vaxneuvance (15), Prevenar 13, Synflorix, Capvaxive (adulto).",
+ast:"Desde 02/05/2024 VNC20 pauta 3+1 (2-4-6-11). VNC en ≥86 años en anexo. Financiada.",
+pauta:"Lactante VNC20: 4 dosis. Adulto: 1 dosis de conjugada de valencia ampliada según protocolo vigente.",
+coste:"0 € si indicación financiada. PVP privado no fijado aquí.",
+ea:"Dolor local, fiebre (más con MenB coadministrada).",
+ci:"Anafilaxia."},
+{g:"infantil",n:"Meningococo B",prot:"EMI serogrupo B",
+tipo:"Proteínas recombinantes",via:"IM",
+marcas:"Bexsero/4CMenB (GSK) ≥2 meses. Trumenba (Pfizer) ≥10 años. No intercambiables.",
+ast:"2, 4 y 12 meses si nacido ≥01/11/2022. Recuerdo ~12 años: AEP sí, anexo Asturias no.",
+pauta:"Lactante 2+1. Adolescente ya primovacunado: 1 dosis de la misma marca.",
+coste:"Calendario infantil 0 €. Fuera de financiación: prensa ES 2026 ~106 €/dosis farmacia. Compra pública SNS ~58–68 €.",
+ea:"Fiebre e irritabilidad frecuentes en lactante. Dolor local.",
+ci:"Anafilaxia. No Trumenba bajo edad autorizada."},
+{g:"infantil",n:"Meningococo ACWY",prot:"EMI A, C, W, Y",
+tipo:"Conjugada",via:"IM",
+marcas:"Nimenrix (Pfizer), MenQuadfi (Sanofi), Menveo (GSK)",
+ast:"4 meses, 12 meses y 13 años. Financiada.",
+pauta:"Según anexo. Adolescente: 1 dosis si no hay MenACWY ≥10 años.",
+coste:"0 € calendario. Adquisición pública ~35 €/dosis (2026).",
+ea:"Dolor local, cefalea, fiebre ocasional.",
+ci:"Anafilaxia."},
+{g:"infantil",n:"Rotavirus",prot:"GEA por rotavirus",
+tipo:"Viva atenuada oral",via:"Oral",
+marcas:"Rotarix 2 dosis (GSK); RotaTeq 3 dosis (MSD)",
+ast:"Cohorte ≥01/01/2025. Financiada.",
+pauta:"Inicio 6–12 sem. Cerrar antes de 24 sem (Rotarix) o 33 sem (RotaTeq). Intervalo ≥4 sem.",
+coste:"0 € calendario. Contrato público 2026: un lote ~111 €/dosis.",
+ea:"Irritabilidad, diarrea leve. Invaginación: riesgo muy bajo (ventana de edad).",
+ci:"ID grave, invaginación previa, malformación intestinal no corregida."},
+{g:"infantil",n:"Triple vírica (SRP)",prot:"Sarampión, rubéola, parotiditis",
+tipo:"Viva atenuada",via:"SC o IM según ficha",
+marcas:"Priorix (GSK), M-M-RVAXPRO (MSD)",
+ast:"12 meses y 3 años. Rescate 14–64 si nacido ES ≥1978 sin pauta.",
+pauta:"2 dosis, intervalo ≥4 semanas.",
+coste:"0 € si indicación financiada.",
+ea:"Fiebre/exantema días 5–12. Convulsión febril rara. PTI muy rara. Sin evidencia de asociación con TEA.",
+ci:"Gestación, ID intensa, anafilaxia a componente. Alergia a huevo: en general no CI para SRP según criterio pediátrico español actual; individualizar."},
+{g:"infantil",n:"Varicela",prot:"VVZ",
+tipo:"Viva atenuada",via:"SC",
+marcas:"Varilrix (GSK), Varivax (MSD)",
+ast:"15 meses y 3 años. Rescate 10 años y adultos susceptibles.",
+pauta:"2 dosis. Adulto susceptible: serología y 2 dosis / 4 sem si negativa.",
+coste:"0 € en indicación financiada.",
+ea:"Dolor local, vesículas escasas, fiebre. Transmisión rara si hay vesículas.",
+ci:"Gestación, ID intensa, anafilaxia."},
+{g:"adolescente",n:"VPH",prot:"Virus del papiloma humano (genotipos vacunales: lesión/cáncer; verrugas si nonavalente)",
+tipo:"VLP recombinante",via:"IM",
+marcas:"Gardasil 9 (MSD). Cervarix (GSK) autorizada.",
+ast:"10 años, 1 dosis, ambos sexos. Rescate financiado hasta los 18 años en no vacunados o sin registro.",
+pauta:"Inmunocompetente 9–18 a: 1 sola dosis (sistemática o rescate). No programar 2.ª/3.ª «por protocolo» si es sana. Inmunodepresión (ID: VIH, trasplante, IS intensa, etc.): 3 dosis 0-2-6 meses desde los 9 años; la regla de 1 dosis no aplica. A los 19 a o más, sana, ya no es rescate del anexo infantil (indicación individual).",
+coste:"0 € financiada (sistemática 10 a y rescate ≤18 a). Contrato tipo ~48,65 €/dosis sin IVA (no es PVP).",
+ea:"Dolor local. Síncope vasovagal: sentar 15 min. Anafilaxia excepcional.",
+ci:"Anafilaxia. No rutinaria en gestación. ID: usar pauta de 3 dosis, no la de 1."},
+{g:"adolescente",n:"Tdpa / Td / VPI recuerdo",prot:"Tétanos, difteria ± tosferina ± polio",
+tipo:"Toxoides ± Pa baja carga ± VPI",via:"IM",
+marcas:"Boostrix, Triaxis; Boostrix Polio; Diftavax, Ditebooster; Imovax Polio.",
+ast:"Prenatal Tdpa; 6 años Tdpa+VPI; 13 años Tdpa; adulto verificar Td.",
+pauta:"Una Tdpa por gestación. Td: completar 5 dosis; dosis a los 65 si pauta infantil completa (nota anexo).",
+coste:"0 € financiada.",
+ea:"Dolor local (a veces intenso en recuerdos frecuentes). Fiebre baja.",
+ci:"Anafilaxia. Encefalopatía atribuida a Pa previa: valorar con preventiva."},
+{g:"campana",n:"Gripe",prot:"Gripe estacional",
+tipo:"Inactivada IM (habitual) o LAIV nasal",via:"IM o IN",
+marcas:"Variable por temporada. Asturias 2025-26: entre otras Fluad (60–79), Efluelda (≥80 / residencias), inactivadas estándar, Fluenz si se usa.",
+ast:"6–59 meses y ≥60 años + grupos de circular (embarazo, crónicos, sanitarios).",
+pauta:"1 dosis/temporada en la mayoría. Primovacunación infantil: 2 dosis si lo marca ficha/circular.",
+coste:"0 € grupo diana SESPA.",
+ea:"Local + fiebre/mialgia 5–20 % (inactivadas). Nasal: congestión.",
+ci:"Anafilaxia. LAIV: no en ID ni gestación."},
+{g:"campana",n:"COVID-19",prot:"Enfermedad grave; protección frente a infección dependiente de variante",
+tipo:"ARNm o proteica",via:"IM",
+marcas:"Comirnaty, Spikevax, Bimervax. Cepa actualizada por temporada.",
+ast:"Circular, no tabla fija de edad en BOPA. 2025-26: mayor riesgo; coadministrable con gripe.",
+pauta:"Habitualmente 1 dosis de campaña si pauta previa. ID extrema: circular.",
+coste:"0 € en campaña indicada.",
+ea:"Local, fatiga, cefalea 1–2 días. Muy raro: miocarditis/pericarditis (ARNm, varones jóvenes).",
+ci:"Anafilaxia (valorar PEG en algunas ARNm)."},
+{g:"adulto",n:"Herpes zóster (Shingrix)",prot:"HZ y NPH",
+tipo:"Recombinante adyuvada gE+AS01B",via:"IM",
+marcas:"Shingrix (GSK). Es la del programa español.",
+ast:"Anexo: 65 y 80 años, 2 dosis / 8 semanas. También ID según protocolo. Recurrencia (≥2 episodios): indicación clínica a cualquier edad; confirmar financiación SESPA fuera de 65/80 e ID listada.",
+pauta:"Shingrix 2 dosis, intervalo 2 meses (mín. 8 sem. en anexo; en ID a menudo 1–2 meses). Tras episodio: esperar a que ceda la erupción. Inmunocompetente: con frecuencia 6–12 meses. ID con alto riesgo de nuevo brote: a veces desde ~3 meses. No en gestación.",
+coste:"0 € a 65 y 80 e ID financiada. Fuera de eso: PVP privado (adquisición pública ~120 €/dosis, no es PVP).",
+ea:"Dolor local ~68 %, mialgia, fatiga, cefalea; mediana 2–3 días. SGB muy raro (pocos casos extra/10⁶ en ≥65, señal post-comercialización).",
+ci:"Anafilaxia. No rutinaria en embarazo. Recurrencia en joven: estudiar ID oculta o IS. IgG VVZ no predice protección frente a reactivación (inmunidad celular). Ig polivalente no es tratamiento estándar del HZ."},
+{g:"campana",n:"VRS (nirsevimab / Abrysvo)",prot:"VRS grave en el lactante",
+tipo:"Nirsevimab: Ac monoclonal. Abrysvo: proteína prefusión materna.",
+via:"IM",marcas:"Beyfortus; Abrysvo.",
+ast:"Circular 2025-26: nirsevimab a &lt;6 meses de cohorte y alto riesgo. Financiado en campaña.",
+pauta:"1 dosis nirsevimab/temporada según peso. No sustituye calendario.",
+coste:"0 € en indicación SESPA.",
+ea:"Local, erupción. Anafilaxia excepcional.",
+ci:"Anafilaxia al preparado."},
+{g:"adulto",n:"Hepatitis B monocomponente",prot:"VHB",
+tipo:"Recombinante HBsAg",via:"IM",
+marcas:"Engerix-B, HBVAXPRO, Fendrix (ERC).",
+ast:"En hexa en lactante. Adulto/riesgo y sanitarios: serología pre si riesgo; posvacunal solo en riesgo u ocupacional.",
+pauta:"0-1-6. Diálisis: 0-1-2-6 o 40 µg / Fendrix. No respondedor: protocolo en CI/precaución.",
+coste:"0 € si indicación financiada.",
+ea:"Dolor local (hasta ~15 % adultos).",
+ci:"Anafilaxia. No respondedor (CAV-AEP cap. 29 y sanitarios cap. 19): anti-HBs &lt;10 mUI/ml a 1–2 meses de la 3.ª en persona de riesgo. Descartar infección (HBsAg ± anti-HBc). Luego: A) 1 dosis extra + serología 1–2 m; si sigue &lt;10, 2 dosis más (0 y 5 m) y serología. B) O repetir 0-1-6 y serología 1–2 m tras la última. Tras 2 series (~6 dosis) y &lt;10: no respondedor definitivo → no más vacuna; exposición: IGHB (2 dosis si fuente HBsAg+ o desconocida). Sano sin riesgo: no control posvacunal rutinario. Diálisis/ID: anti-HBs periódico y recuerdo si &lt;10."},
+{g:"viaje",n:"No sistemáticas (HA, viaje, brote)",prot:"HA, FA, rabia, tifoidea, mpox, dengue según caso",
+tipo:"Según ficha",via:"Según ficha",
+marcas:"Havrix, Vaqta, Twinrix; Stamaril; Rabipur; Typhim Vi; Qdenga; etc.",
+ast:"No sistemáticas. Financiación solo si protocolo autonómico lo indica.",
+pauta:"Preventiva / vacunación internacional.",
+coste:"A menudo a cargo del usuario. Pedir PVP.",
+ea:"Según ficha. Vivas de viaje: CI específicas.",
+ci:"Según ficha. FA: no en ID grave ni lactante muy pequeño."}
+];
+
+const MILESTONES = [
+  { label: "2 meses", months: 2, v: "Hexa, VNC, MenB*, RV*" },
+  { label: "4 meses", months: 4, v: "Hexa, VNC, MenB, MenACWY, RV*" },
+  { label: "6 meses", months: 6, v: "VNC; gripe si campaña (6–59 m)" },
+  { label: "11 meses", months: 11, v: "Hexa, VNC" },
+  { label: "12 meses", months: 12, v: "SRP, MenACWY, MenB" },
+  { label: "15 meses", months: 15, v: "Varicela 1.ª" },
+  { label: "3 años", months: 36, v: "SRP + varicela recuerdo" },
+  { label: "6 años", months: 72, v: "Tdpa + VPI" },
+  { label: "10 años", months: 120, v: "VPH 1 dosis; varicela si incompleta" },
+  { label: "13 años", months: 156, v: "Tdpa + MenACWY" },
+  { label: "65 años", months: 780, v: "Td, gripe, HZ 2 dosis" },
+  { label: "80 años", months: 960, v: "Td, gripe, HZ 2 dosis" },
+  { label: "86 años", months: 1032, v: "Td, gripe, VNC" }
+];
+
+function parseDob(raw) {
+  if (!raw) return null;
+  const s = raw.trim();
+  let d, mo, y;
+  const dmY = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})$/);
+  const ymd = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (dmY) { d = +dmY[1]; mo = +dmY[2]; y = +dmY[3]; }
+  else if (ymd) { y = +ymd[1]; mo = +ymd[2]; d = +ymd[3]; }
+  else return null;
+  if (mo < 1 || mo > 12 || d < 1 || d > 31 || y < 1900 || y > 2100) return null;
+  const dt = new Date(y, mo - 1, d);
+  if (dt.getFullYear() !== y || dt.getMonth() !== mo - 1 || dt.getDate() !== d) return null;
+  return dt;
+}
+function ageMonths(dt) {
+  const n = new Date();
+  let m = (n.getFullYear() - dt.getFullYear()) * 12 + (n.getMonth() - dt.getMonth());
+  if (n.getDate() < dt.getDate()) m--;
+  return m;
+}
+function renderAge(raw) {
+  const box = document.getElementById("ageResult");
+  if (!box) return;
+  if (!raw || !String(raw).trim()) { box.innerHTML = ""; return; }
+  const dt = parseDob(raw);
+  if (!dt) { box.innerHTML = "<p>Fecha no válida. Use <strong>dd/mm/aaaa</strong> (ejemplo: 07/03/2018).</p>"; return; }
+  const m = ageMonths(dt);
+  if (m < 0) { box.innerHTML = "<p>Fecha posterior a hoy. Revise día/mes/año.</p>"; return; }
+  const years = Math.floor(m / 12);
+  const rem = m % 12;
+  const next = MILESTONES.filter(x => x.months > m).slice(0, 3);
+  const last = [...MILESTONES].reverse().find(x => x.months <= m);
+  let html = `<p><strong>Edad:</strong> ${years} a + ${rem} m (${m} meses).</p>`;
+  if (last) html += `<p style="margin-top:.4rem"><strong>Último hito sistemático alcanzado:</strong> ${last.label} — ${last.v}</p>`;
+  if (next.length) {
+    html += "<p style='margin-top:.45rem'><strong>Próximos hitos del anexo:</strong></p><ul>";
+    next.forEach(x => { html += `<li>${x.label}: ${x.v}</li>`; });
+    html += "</ul>";
+  } else html += "<p style='margin-top:.45rem'>A esta edad: rescates (Td, SRP, varicela) y campañas.</p>";
+  html += `<p class="muted" style="margin-top:.4rem">*Cohortes MenB ≥01/11/2022; RV ≥01/01/2025. Verificar HCE antes de citar.</p>`;
+  box.innerHTML = html;
+}
+function vacCard(v) {
+  return `<details class="card" open><summary>${v.n}</summary>
+    <p class="muted">${v.prot}</p>
+    <dl class="dl">
+      <dt>Tipo</dt><dd>${v.tipo}</dd>
+      <dt>Vía</dt><dd>${v.via}</dd>
+      <dt>Marcas ES</dt><dd>${v.marcas}</dd>
+      <dt>Asturias</dt><dd>${v.ast}</dd>
+      <dt>Pauta</dt><dd>${v.pauta}</dd>
+      <dt>Coste</dt><dd>${v.coste}</dd>
+      <dt>EA</dt><dd>${v.ea}</dd>
+      <dt>CI / precaución</dt><dd>${v.ci}</dd>
+    </dl></details>`;
+}
+function renderCatalog(filter, group) {
+  const q = (filter || "").toLowerCase();
+  let list = VACCINES.filter(v => !group || group === "todas" || v.g === group);
+  if (q.length > 1) list = list.filter(v => (v.n + v.prot + v.marcas + v.ast + v.tipo).toLowerCase().includes(q));
+  const chips = [["todas","Todas"],["infantil","Lactante/niño"],["adolescente","Adolescente"],["adulto","Adulto"],["campana","Campaña"],["viaje","No sistemática"]]
+    .map(([k,l]) => `<button type="button" data-g="${k}" class="${(!group||group==="todas"?k==="todas":group===k)?"on":""}">${l}</button>`).join("");
+  let html = `<h2>Fichas de apoyo (no sustituyen CIMA)</h2>
+    <div class="disc">EA/CI resumidos de ficha y CAV-AEP. Coste usuario en indicación financiada = 0 €. Verificar lote del centro y PVP si hay prescripción privada.</div>
+    <div class="chips" id="vchips">${chips}</div>`;
+  html += list.length ? list.map(vacCard).join("") : `<div class="card">Sin coincidencias.</div>`;
+  document.getElementById("out").innerHTML = html;
+  document.getElementById("vchips").addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (b && b.dataset.g) renderCatalog(document.getElementById("q").value.trim(), b.dataset.g);
+  });
+  bindGlossary(document.getElementById("out"));
+}
+function setTab(id, filter) {
+  document.querySelectorAll(".tabs button").forEach(b => b.classList.toggle("active", b.dataset.tab === id));
+  if (id === "catalogo") { renderCatalog(filter, "todas"); return; }
+  const s = SECTIONS[id];
+  if (!s) return;
+  let html = `<h2>${s.title}</h2>` + s.html;
+  if (filter && filter.length > 1) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = s.html;
+    const cards = [...tmp.querySelectorAll(".card")].filter(c => c.textContent.toLowerCase().includes(filter.toLowerCase()));
+    if (!cards.length && !s.title.toLowerCase().includes(filter.toLowerCase())) {
+      html = `<h2>${s.title}</h2><div class="card">Sin coincidencias para «${filter}».</div>`;
+    } else if (cards.length) html = `<h2>${s.title}</h2>` + cards.map(c => c.outerHTML).join("");
+  }
+  document.getElementById("out").innerHTML = html;
+  const dob = document.getElementById("dob");
+  if (dob) {
+    dob.addEventListener("input", () => {
+      let v = dob.value.replace(/[^\d]/g, "");
+      if (v.length > 8) v = v.slice(0, 8);
+      if (v.length >= 5) v = v.slice(0, 2) + "/" + v.slice(2, 4) + "/" + v.slice(4);
+      else if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2);
+      if (dob.value !== v) dob.value = v;
+      renderAge(dob.value);
+    });
+    dob.addEventListener("change", () => renderAge(dob.value));
+    if (dob.value) renderAge(dob.value);
+  }
+  bindGlossary(document.getElementById("out"));
+  bindPocket(document.getElementById("out"));
+}
+function bindPocket(root) {
+  if (!root) return;
+  root.querySelectorAll(".print-pocket").forEach(btn => {
+    btn.addEventListener("click", () => window.print());
+  });
+  const det = root.querySelector(".age-detail");
+  root.querySelectorAll("tr.age-row").forEach(tr => {
+    tr.addEventListener("click", e => {
+      if (e.target.closest(".abbr")) return;
+      const on = tr.classList.contains("on");
+      root.querySelectorAll("tr.age-row.on").forEach(x => x.classList.remove("on"));
+      if (det) det.classList.remove("on");
+      if (!on) {
+        tr.classList.add("on");
+        if (det) { det.textContent = tr.dataset.d || ""; det.classList.add("on"); }
+      }
+    });
+  });
+}
+const GLOSSARY = {
+  VPH: "Virus del papiloma humano. Sistemática a los 10 años (1 dosis, ambos sexos). Rescate financiado hasta los 18 años: 1 dosis si inmunocompetente. ID (inmunodepresión): 3 dosis 0-2-6 meses.",
+  ID: "Inmunodepresión o inmunosupresión (VIH, trasplante, tratamiento IS intenso, etc.). Cambia pautas: p. ej. VPH 3 dosis, no 1; precaución con vacunas vivas.",
+  Hexa: "Hexavalente: DTPa + VPI + Hib + hepatitis B. En Asturias 2, 4 y 11 meses (no a los 6 meses).",
+  DTPa: "Difteria, tétanos y tosferina (componente acelular) de carga infantil.",
+  Tdpa: "Tétanos, difteria de baja carga y tosferina acelular. Recuerdos (6 y 13 años, gestación).",
+  Td: "Tétanos y difteria de baja carga (adulto).",
+  VPI: "Vacuna antipoliomielítica inactivada (inyectable).",
+  Hib: "Haemophilus influenzae tipo b.",
+  HB: "Hepatitis B.",
+  HA: "Hepatitis A.",
+  VNC: "Vacuna neumocócica conjugada (en Asturias VNC20 en lactante desde 02/05/2024).",
+  MenB: "Vacuna frente a meningococo B. Cohorte infantil ≥01/11/2022. Recuerdo adolescente: AEP sí / anexo Asturias no.",
+  Men4: "Vacuna conjugada meningococo A, C, W e Y (MenACWY).",
+  MenACWY: "Vacuna conjugada meningococo A, C, W e Y.",
+  RV: "Rotavirus (oral, viva). Cohorte ≥01/01/2025.",
+  SRP: "Sarampión, rubéola y parotiditis (triple vírica). En Asturias 12 meses y 3 años.",
+  Var: "Vacuna frente a varicela. En Asturias 15 meses y 3 años.",
+  VVZ: "Virus varicela-zóster.",
+  HZ: "Herpes zóster. En el programa: Shingrix, 2 dosis a los 65 y a los 80 años.",
+  VRS: "Virus respiratorio sincitial. En lactante: nirsevimab (anticuerpo), no vacuna clásica.",
+  COVID: "Vacuna frente a COVID-19. Dosis de campaña, no hito fijo del anexo BOPA.",
+  Gripe: "Vacuna antigripal de temporada (circular anual).",
+  EA: "Efectos adversos.",
+  CI: "Contraindicación.",
+  HCE: "Historia clínica electrónica.",
+  SESPA: "Servicio de Salud del Principado de Asturias.",
+  BOPA: "Boletín Oficial del Principado de Asturias.",
+  CAV: "Comité Asesor de Vacunas (AEP).",
+  AEP: "Asociación Española de Pediatría.",
+  AEMPS: "Agencia Española de Medicamentos y Productos Sanitarios.",
+  CIMA: "Centro de Información online de Medicamentos (AEMPS).",
+  SNS: "Sistema Nacional de Salud.",
+  PVP: "Precio de venta al público.",
+  EMI: "Enfermedad meningocócica invasora.",
+  ENI: "Enfermedad neumocócica invasora.",
+  NPH: "Neuralgia postherpética.",
+  IS: "Inmunosupresor / inmunosupresión.",
+  FA: "Fiebre amarilla.",
+  IGHB: "Inmunoglobulina específica anti-hepatitis B. RN de madre HBsAg+ y exposiciones de riesgo. No respondedor (6 dosis y anti-HBs &lt;10): 2 dosis si fuente HBsAg+ o desconocida.",
+  IGT: "Inmunoglobulina antitetánica. Profilaxis habitual 250 UI IM; 500 UI si herida de alto riesgo, &gt;24 h, &gt;90 kg o quemadura.",
+  VZIG: "Inmunoglobulina específica frente a varicela-zóster. ID expuesto a varicela.",
+  UDVP: "Usuario de drogas por vía parenteral.",
+  "anti-HBs": "Anticuerpo frente a HBsAg. Protección serológica habitual: ≥10 mUI/ml 1–2 meses tras la pauta.",
+  HBsAg: "Antígeno de superficie del VHB. Si es positivo no se vacuna de HB: es infección.",
+  VHB: "Virus de la hepatitis B.",
+  Ac: "Anticuerpo.",
+  "R": "Rescate: completar si no consta dosis o inmunidad."
+};
+function bindGlossary(root) {
+  if (!root) return;
+  const keys = Object.keys(GLOSSARY).sort((a,b) => b.length - a.length);
+  const re = new RegExp("(?<![\\wÁÉÍÓÚáéíóú])(" + keys.map(k => k.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\$&")).join("|") + ")(?![\\wÁÉÍÓÚáéíóú])", "g");
+  const skip = new Set(["SCRIPT","STYLE","TEXTAREA","INPUT","BUTTON"]);
+  const walk = (node) => {
+    if (node.nodeType === 1) {
+      if (skip.has(node.tagName) || node.classList.contains("abbr")) return;
+      [...node.childNodes].forEach(walk);
+    } else if (node.nodeType === 3) {
+      const t = node.nodeValue;
+      if (!re.test(t)) { re.lastIndex = 0; return; }
+      re.lastIndex = 0;
+      const wrap = document.createElement("span");
+      wrap.innerHTML = t.replace(re, m => `<button type="button" class="abbr" data-key="${m}">${m}</button>`);
+      node.parentNode.replaceChild(wrap, node);
+    }
+  };
+  walk(root);
+}
+function showAbbr(el) {
+  const tip = document.getElementById("abbrTip");
+  const key = el.dataset.key || el.textContent.trim();
+  const exp = GLOSSARY[key] || GLOSSARY[key.replace(/\s+/g,"")];
+  if (!exp) return;
+  tip.innerHTML = "<b>" + key + "</b>" + exp;
+  tip.style.display = "block";
+  const r = el.getBoundingClientRect();
+  let left = Math.min(window.innerWidth - 260, Math.max(8, r.left));
+  let top = r.bottom + 8;
+  if (top + 140 > window.innerHeight) top = Math.max(8, r.top - 130);
+  tip.style.left = left + "px";
+  tip.style.top = top + "px";
+}
+document.addEventListener("click", e => {
+  const a = e.target.closest(".abbr");
+  const tip = document.getElementById("abbrTip");
+  if (a) { e.preventDefault(); showAbbr(a); return; }
+  if (tip && !tip.contains(e.target)) tip.style.display = "none";
+});
+document.getElementById("tabs").addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (b) setTab(b.dataset.tab, document.getElementById("q").value.trim());
+});
+function search() {
+  const active = document.querySelector(".tabs button.active")?.dataset.tab || "consulta";
+  setTab(active, document.getElementById("q").value.trim());
+}
+document.getElementById("qb").addEventListener("click", search);
+document.getElementById("q").addEventListener("keydown", e => { if (e.key === "Enter") search(); });
+setTab("consulta");
+</script>
+</body>
+</html>
