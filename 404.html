@@ -159,6 +159,7 @@
   <button data-tab="rescate">Migrante / rescate</button>
   <button data-tab="personal">Personal sanitario</button>
   <button data-tab="riesgo">Inmunosupresión</button>
+  <button data-tab="cronicos">Crónicos / VNC</button>
   <button data-tab="heridas">Herida / tétanos</button>
   <button data-tab="garrapata">Garrapata</button>
   <button data-tab="fuera">Fuera de anexo</button>
@@ -272,12 +273,13 @@ html: `
 </thead>
 <tbody>
 <tr class="age-row" data-d="Tdpa cada gestación. Gripe cualquier trimestre en temporada. COVID si circular. No SRP/varicela/LAIV."><td class="edad">Gestación</td><td class="dot c-td">Tdpa ●</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="soft c-gripe">Camp.</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="empty"></td></tr>
-<tr class="age-row" data-d="Rescates Td/SRP/varicela. VPH solo ≤18 a. Gripe/VNC/HZ si riesgo o ID. VRS adulto: no está en el anexo infantil; ver Fuera de anexo."><td class="edad">14–59 a</td><td class="soft c-td">Td (R)⁶</td><td class="soft c-srp">(R)⁷</td><td class="soft c-var">(R)⁸</td><td class="soft c-vph">(R)⁹</td><td class="soft c-gripe">Riesgo</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="soft c-vnc">Riesgo</td></tr>
-<tr class="age-row" data-d="Gripe sistemática desde 60 a. Resto: rescates y riesgo."><td class="edad">60–64 a</td><td class="soft c-td">Td (R)⁶</td><td class="soft c-srp">(R)⁷</td><td class="soft c-var">(R)⁸</td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="soft c-vnc">Riesgo</td></tr>
-<tr class="age-row" data-d="Td (nota anexo si pauta infantil completa) + gripe + Shingrix 2 dosis / 8 sem. Financiado a esta edad."><td class="edad">65 a</td><td class="soft c-td">Td⁶</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="dot c-hz">●¹⁰</td><td class="empty"></td></tr>
-<tr class="age-row" data-d="Gripe anual. HZ no se repite aquí salvo ID o si faltó a los 65."><td class="edad">66–79 a</td><td class="soft c-td">Td</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="empty"></td></tr>
-<tr class="age-row" data-d="Segunda cohorte Shingrix del anexo: 2 dosis / 8 sem. + gripe."><td class="edad">80 a</td><td class="soft c-td">Td</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="dot c-hz">●¹⁰</td><td class="empty"></td></tr>
-<tr class="age-row" data-d="Gripe. HZ ya cubierto a los 80 si se administró."><td class="edad">81–85 a</td><td class="soft c-td">Td</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="empty"></td></tr>
+<tr class="age-row" data-d="Td/SRP/varicela si faltan. VPH: 1 dosis financiada solo ≤18 a. MenACWY solo si ≤18 y cohorte del programa. VNC si patología (pestaña Crónicos)."><td class="edad">14–18 a</td><td class="soft c-td">Td (R)⁶</td><td class="soft c-srp">(R)⁷</td><td class="soft c-var">(R)⁸</td><td class="soft c-vph">(R)⁹</td><td class="soft c-gripe">Riesgo</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="soft c-vnc">Crónico</td></tr>
+<tr class="age-row" data-d="VPH del anexo ya no. HSH/ID/trabajo sexual: ver nota ⁹, no esta celda. VNC = patología crónica o ID, no por edad. CISNS pone VNC a los 65; el anexo asturiano, a los 86."><td class="edad">19–59 a</td><td class="soft c-td">Td (R)⁶</td><td class="soft c-srp">(R)⁷</td><td class="soft c-var">(R)⁸</td><td class="empty"></td><td class="soft c-gripe">Riesgo</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="soft c-vnc">Crónico</td></tr>
+<tr class="age-row" data-d="Gripe sistemática desde 60 a. VNC si EPOC, cardiopatía, diabetes, renal, etc. (Crónicos). No VPH de anexo."><td class="edad">60–64 a</td><td class="soft c-td">Td (R)⁶</td><td class="soft c-srp">(R)⁷</td><td class="soft c-var">(R)⁸</td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="soft c-vnc">Crónico</td></tr>
+<tr class="age-row" data-d="Td + gripe + Shingrix 2 dosis / 8 sem. (financiado). VNC sistemática del anexo = 86 a. A los 65, VNC si crónico/ID o si SESPA alinea con CISNS; no asumir 0 € solo por cumplir 65."><td class="edad">65 a</td><td class="soft c-td">Td⁶</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="dot c-hz">●¹⁰</td><td class="soft c-vnc">Crónico</td></tr>
+<tr class="age-row" data-d="Gripe anual. HZ no se repite salvo ID o si faltó a los 65. VNC si crónico (casi siempre hay uno) o esperar 86 a del anexo."><td class="edad">66–79 a</td><td class="soft c-td">Td</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="soft c-vnc">Crónico</td></tr>
+<tr class="age-row" data-d="Shingrix 2 dosis / 8 sem. + gripe. VNC: crónico o 86 a."><td class="edad">80 a</td><td class="soft c-td">Td</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="dot c-hz">●¹⁰</td><td class="soft c-vnc">Crónico</td></tr>
+<tr class="age-row" data-d="Gripe. VNC si crónico; sistemática a los 86."><td class="edad">81–85 a</td><td class="soft c-td">Td</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="soft c-vnc">Crónico</td></tr>
 <tr class="age-row" data-d="VNC sistemática del anexo + gripe. Completar Td si falta."><td class="edad">≥86 a</td><td class="soft c-td">Td</td><td class="empty"></td><td class="empty"></td><td class="empty"></td><td class="dot c-gripe">●</td><td class="soft c-covid">Camp.</td><td class="empty"></td><td class="dot c-vnc">●</td></tr>
 </tbody>
 </table>
@@ -294,8 +296,9 @@ html: `
 ⁶ Verificar estado. Completar hasta 5 dosis de tétanos si procede. Dosis Td a los 65 a si pauta infantil completa (nota anexo). Incluir Tdpa al menos 1 vez en la vida adulta / cada gestación.<br>
 ⁷ SRP: 2 dosis (o 1 si ya hay una) en nacidos en España ≥1978 sin pauta, y en no nacidos en ES sin documento.<br>
 ⁸ Varicela: si no hay evidencia, serología; 2 dosis / 4 sem. si negativa. En ≥18 a la estrategia de migrantes prioriza serología antes de vacunar.<br>
-⁹ VPH: pulsar la sigla. Rescate = 1 dosis financiada hasta los 18 a si no consta; si hay inmunodepresión (ID), 3 dosis (0-2-6), no 1.<br>
-¹⁰ HZ (Shingrix): 2 dosis separadas 8 semanas a los 65 y a los 80 años. También ID según protocolo.<br>
+⁹ VPH — no confundir indicación y financiación. Anexo Asturias: 1 dosis a los 10 a + rescate 1 dosis ≤18 a. ID: 3 dosis 0-2-6. CISNS riesgo (HSH, prostitución) hasta 45 a: 1 dosis ≤25 y 2 dosis desde 26. AEP: 1 dosis hasta 25 en sano, financiación habitual ≤18. No hay pauta de 2 dosis 18–59 para el adulto sano del anexo.<br>
+¹⁰ HZ (Shingrix): 2 dosis / 8 sem. a los 65 y 80. También ID y anti-JAK ≥18 a.<br>
+VNC «Crónico»: EPOC, cardiopatía, diabetes, renal, hepatopatía, institucionalizado, EMI previa, etc. (pestaña Crónicos). Sistemática por edad en el anexo: ≥86 a. El CISNS recomienda desde 65; en Asturias no asumir financiación solo por cumplir 65.<br>
 Sanitario: gripe anual de campaña; HB + anti-HBs; SRP 2 dosis o IgG+; varicela 2 dosis o evidencia; Td/Tdpa al día.<br>
 Sin cartilla: 1.ª visita prioritaria SRP + VPI + Td/Tdpa (estrategia CSP 16/06/2026).
 </p>
@@ -358,9 +361,27 @@ html: `
   <li><strong>SRP:</strong> sin pauta previa y nacidos en España ≥1978: 2 dosis (o 1 si ya consta una), intervalo ≥4 semanas.</li>
   <li><strong>Varicela:</strong> sin evidencia de inmunidad → serología; si negativa, 2 dosis / 4 semanas.</li>
   <li><strong>Gripe:</strong> anexo desde 60–64; antes si factor de riesgo o circular.</li>
+  <li><strong>VPH:</strong> rescate del anexo solo ≤18 a (1 dosis). De 19 en adelante el sano no tiene (R) en el bolsillo. HSH / trabajo sexual / ID: tabla de indicación ≠ financiación (abajo).</li>
+  <li><strong>VNC:</strong> no por edad 14–85 en el anexo. Sí si patología crónica o ID (pestaña Crónicos). Sistemática por edad: ≥86 a.</li>
 </ul></div>
+<div class="card">
+  <h3>VPH: indicación frente a financiación</h3>
+  <table class="bolsillo" style="min-width:420px">
+    <caption>No hay 2 dosis 18–59 para el adulto sano asturiano</caption>
+    <thead><tr><th class="edad">Grupo</th><th class="c-vph">Qué se recomienda</th><th class="c-td">Qué financia el anexo</th></tr></thead>
+    <tbody>
+      <tr><td class="edad">Sano 10 a</td><td class="soft c-vph">1 dosis ambos sexos</td><td class="soft c-td">Sí</td></tr>
+      <tr><td class="edad">Sano 11–18 a</td><td class="soft c-vph">1 dosis si no consta</td><td class="soft c-td">Sí (rescate)</td></tr>
+      <tr><td class="edad">Sano 19–25 a</td><td class="soft c-vph">AEP: 1 dosis. CISNS no la pone sistemática</td><td class="soft c-td">No (prescripción)</td></tr>
+      <tr><td class="edad">Sano ≥26 a</td><td class="soft c-vph">No pauta de calendario</td><td class="soft c-td">No</td></tr>
+      <tr><td class="edad">HSH / prostitución</td><td class="soft c-vph">CISNS hasta 45 a: 1 dosis ≤25; 2 dosis desde 26</td><td class="soft c-td">Riesgo: confirmar SESPA</td></tr>
+      <tr><td class="edad">ID / VIH / CIN2+</td><td class="soft c-vph">3 dosis 0-2-6, hasta 45 a</td><td class="soft c-td">Protocolo ID</td></tr>
+    </tbody>
+  </table>
+</div>
 <div class="card"><h3>65 años</h3>
-<p><span class="tag">Td</span> <span class="tag">Gripe anual</span> <span class="tag">HZ</span> 2 dosis / 8 semanas</p></div>
+<p><span class="tag">Td</span> <span class="tag">Gripe anual</span> <span class="tag">HZ</span> 2 dosis / 8 semanas</p>
+<p class="muted">VNC a los 65: CISNS sí / anexo Asturias no. Si hay EPOC, corazón, diabetes, renal… usar pestaña Crónicos.</p></div>
 <div class="card"><h3>66–79 años</h3>
 <p><span class="tag">Td</span> <span class="tag">Gripe anual</span></p></div>
 <div class="card"><h3>80 años</h3>
@@ -492,8 +513,23 @@ html: `
   <p>Individualizar según fármaco, dosis, tiempo y enfermedad de base. Lo siguiente es marco habitual CAV-AEP / programas de vacunación, no un protocolo único por principio activo.</p>
   <ul>
     <li><strong>Vivas</strong> (SRP, varicela, rotavirus, gripe nasal): en general CI si inmunosupresión intensa. Si es posible, administrar semanas-meses <em>antes</em> de iniciar el tratamiento.</li>
-    <li>Inactivadas, conjugadas, recombinantes, ARNm, toxoides: no CI por ser vivas; la respuesta puede ser subóptima. Preferible 1 mes antes o en valle de inmunosupresión.</li>
+    <li>Inactivadas, conjugadas, recombinantes, ARNm, toxoides: no CI por ser vivas; la respuesta puede ser subóptima. Preferible ≥2 semanas antes o en valle de inmunosupresión.</li>
   </ul>
+</div>
+<div class="card">
+  <h3>Rescate del calendario infantil en ID</h3>
+  <p>Sí se rescata, pero <strong>no</strong> con la misma lista que el niño sano. Edad + grado de IS + si el tratamiento es inminente.</p>
+  <ul>
+    <li><strong>Antes de iniciar IS</strong> (ideal): acelerar inactivadas (≥2 sem.) y vivas (≥4 sem.).</li>
+    <li><strong>Durante IS intensa:</strong> inactivadas sí (respuesta menor). Vivas no: SRP, varicela, RV, gripe nasal, VPO, FA, BCG.</li>
+    <li><strong>Tras suspender IS:</strong> vivas en general 3–6 meses (hasta 12–24 meses si TPH / rituximab / Ig alta dosis). Consultar preventiva.</li>
+    <li>Hexa/Tdpa/VPI/Hib/HB/VNC/Men: completar por edad (tablas 11 CAV-AEP), a menudo con <strong>más dosis</strong> que el sano (Hib ≥5 a si asplenia/complemento/VIH; VNC pauta de riesgo; MenB/ACWY de riesgo).</li>
+    <li><strong>VPH:</strong> siempre 3 dosis 0-2-6 desde los 9 a (no la dosis única del anexo).</li>
+    <li><strong>HB:</strong> serología; si anti-HBs &lt;10, protocolo de no respondedor / pauta reforzada.</li>
+    <li>Gripe inactivada anual (no LAIV). COVID según circular de ID. Shingrix si edad/indicación (recombinante, usable en ID). Nirsevimab si &lt;2 a de alto riesgo.</li>
+    <li>Convivientes: gripe, SRP y varicela al día (no transmitir cepa vacunal de vivas al ID).</li>
+  </ul>
+  <div class="note">Sin cartilla = no vacunado, igual que en rescate general, pero las vivas esperan. No usar RV si ya pasó la ventana o hay ID grave.</div>
 </div>
 <div class="card">
   <h3>Prioridades frecuentes</h3>
@@ -501,9 +537,27 @@ html: `
     <li>Gripe anual y COVID-19 según campaña.</li>
     <li>Neumococo: pauta actual de conjugada de valencia ampliada según protocolo vigente (no asumir siempre VNC13+PPSV23).</li>
     <li>HB si serología negativa o anti-HBs insuficiente.</li>
-    <li>HZ (Shingrix) en inmunodeprimidos según indicación autonómica/nacional, no solo a 65 y 80 años.</li>
+    <li>HZ (Shingrix) en inmunodeprimidos según indicación autonómica/nacional, no solo a 65 y 80 años. <strong>Anti-JAK: desde los 18 años.</strong></li>
     <li>Vacunar convivientes (gripe) como barrera.</li>
   </ul>
+</div>
+<div class="card">
+  <h3>Inhibidores de JAK (anti-JAK)</h3>
+  <p>Baricitinib, upadacitinib, tofacitinib, filgotinib, etc. Suben el riesgo de zóster. Prioridad: <strong>Shingrix desde los 18 años</strong> (2 dosis), también si el anexo solo cita 65 y 80. Ideal: completar pauta <em>antes</em> de empezar el fármaco. Si ya lo toma: recombinante, no viva.</p>
+  <table class="bolsillo" style="min-width:420px">
+    <caption>Vacunación con anti-JAK</caption>
+    <thead>
+      <tr><th class="edad">Tema</th><th class="c-hz">Pauta</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="edad">HZ / Shingrix</td><td class="soft c-hz">≥18 a si inicia o recibe anti-JAK. 2 dosis (2 meses; ID 1–2 meses). No Zostavax.</td></tr>
+      <tr><td class="edad">Inactivadas</td><td class="soft c-td">Seguras con el fármaco: gripe IM anual, VNC de riesgo, COVID de campaña, HB si serología &lt;10, VPH 3 dosis.</td></tr>
+      <tr><td class="edad">Vivas</td><td class="soft c-srp">CI con el tratamiento: SRP, varicela, gripe nasal, FA, VPO, BCG. Si hacen falta: ≥4 semanas antes de empezar.</td></tr>
+      <tr><td class="edad">Ventana peri-dosis</td><td class="soft c-vnc">Algunos documentos: pausa breve del anti-JAK alrededor de una inactivada (p. ej. 1 semana tras la dosis; bari/upa a veces 3 días antes y 3 después). Paciente estable. Acordar con el prescriptor.</td></tr>
+      <tr><td class="edad">Financiación HZ</td><td class="soft c-gripe">Anexo: 65, 80 e ID protocolizada. Anti-JAK = ID a efectos de indicación; confirmar SESPA si &lt;65.</td></tr>
+    </tbody>
+  </table>
+</div>
 <div class="card">
   <h3>Inmunoglobulinas (pasiva)</h3>
   <ul>
@@ -515,6 +569,43 @@ html: `
   <div class="note">Tras Ig: SRP/varicela ≥3 meses (sarampión, según dosis, hasta ~11–12 meses). Nirsevimab no interfiere. Vacuna e Ig el mismo día: sitios distintos. IGT de herida: pestaña Herida / tétanos.</div>
 </div>
   <div class="note">Dejar pauta escrita (preventiva / AP / prescriptor del inmunosupresor). No iniciar ni omitir por esta pantalla.</div>
+</div>`
+},
+cronicos: {
+title: "Patología crónica y neumococo",
+html: `
+<div class="disc">Inmunosupresión va en su pestaña. Aquí: cardiopatía, pulmón, diabetes, riñón, hígado, institucionalizado. Dos capas: <strong>indicación</strong> (casi todo mayor tiene una) y <strong>financiación por edad</strong> del anexo (≥86 a).</div>
+<div class="card">
+  <h3>VNC por edad en Asturias</h3>
+  <ul>
+    <li>Lactante: VNC20 2-4-6-11 m (desde 02/05/2024).</li>
+    <li>Anexo adulto: 1 dosis a los <strong>≥86 años</strong> si no hay conjugada/polisacárida previa (circular 4/24 empezó por ≥90 y ha bajado de cohorte).</li>
+    <li>CISNS: recomienda VNC desde los <strong>65 años</strong>. Otras CCAA lo financian a esa edad. En SESPA no marcar 65 a como ● del anexo.</li>
+  </ul>
+</div>
+<div class="card">
+  <h3>VNC por patología (cualquier edad adulta)</h3>
+  <p>Circular SESPA / grupos de riesgo. Suele ser 1 dosis de VNC20 si no hay pauta previa de conjugada de valencia amplia.</p>
+  <ul>
+    <li>Cardiopatía isquémica, insuficiencia, miocardiopatía, cianótica. No HTA sola.</li>
+    <li>EPOC, asma grave, fibrosis quística, displasia, neuromusculares graves.</li>
+    <li>Diabetes, obesidad mórbida.</li>
+    <li>ERC / síndrome nefrótico / diálisis.</li>
+    <li>Hepatopatía, cirrosis, alcoholismo.</li>
+    <li>Celiaquía no controlada.</li>
+    <li>Institucionalizado (residencia).</li>
+    <li>EMI neumocócica previa, fístula LCR, implante coclear.</li>
+    <li>Asplenia, VIH, trasplante, IS, complemento: pestaña Inmunosupresión (pauta a menudo distinta).</li>
+  </ul>
+  <div class="note">Un mayor de 70 con EPOC o diabetes entra por patología, no hace falta esperar a los 86. Si está «sano» de cartilla a los 70, el anexo no le pone VNC por edad.</div>
+</div>
+<div class="card">
+  <h3>Otras vacunas que tira la patología crónica</h3>
+  <ul>
+    <li>Gripe anual (y a menudo COVID de campaña).</li>
+    <li>HB en diálisis / hepatopatía según serología.</li>
+    <li>HZ: 65 y 80; antes si ID o anti-JAK o ≥2 brotes.</li>
+  </ul>
 </div>`
 },
 heridas: {
@@ -837,6 +928,40 @@ function ageMonths(dt) {
   if (n.getDate() < dt.getDate()) m--;
   return m;
 }
+function ymd(dt) {
+  const z = n => String(n).padStart(2, "0");
+  return `${dt.getFullYear()}-${z(dt.getMonth()+1)}-${z(dt.getDate())}`;
+}
+function cohortNow(dt, years) {
+  const iso = ymd(dt);
+  const menB = iso >= "2022-11-01";
+  const rv = iso >= "2025-01-01";
+  // MenACWY adolescente en Asturias: sistemática a los 13 desde 01/06/2019;
+  // barrido 2020 a 15–18 a = nacidos 2002–2005. Nacidos <2002 no pasaron por esa dosis.
+  const men4Cohort = iso >= "2002-01-01";
+  const men4StillCatch = years <= 18 && men4Cohort;
+  const vphCatch = years <= 18;
+  const items = [];
+  if (years < 14) {
+    items.push("Niño/adolescente: usar Bolsillo 0–18 + cartilla. No inventar dosis que su cohorte no tenía.");
+    if (!menB) items.push("MenB infantil: solo cohorte ≥01/11/2022. Si nació antes, no es «dosis atrasada» del anexo.");
+    if (!rv) items.push("Rotavirus: solo cohorte ≥01/01/2025 y dentro de la ventana de edad.");
+    if (men4StillCatch) items.push("MenACWY: si no consta dosis ≥10 a, el anexo/rescate adolescente llega hasta los 18 a.");
+    else if (years >= 13 && !men4Cohort) items.push("MenACWY a los 13: su cohorte no la tenía. Hoy no se pone solo por «faltarme la de los 13».");
+    if (vphCatch) items.push("VPH: 1 dosis si no consta (ID: 3 dosis).");
+    return items;
+  }
+  items.push("Td: verificar y completar hasta 5 dosis vitales. Tdpa al menos 1 vez en la vida adulta / cada gestación.");
+  if (iso >= "1978-01-01") items.push("SRP: 2 dosis si nacido en ES ≥1978 sin pauta (o 1 si ya consta una). Sin documento: vacunar.");
+  items.push("Varicela: si no hay evidencia, serología; 2 dosis si negativa.");
+  if (vphCatch) items.push("VPH: rescate 1 dosis hasta 18 a. ID: 3 dosis.");
+  else items.push("VPH: el anexo no rescata >18 a. HSH / trabajo sexual / ID: pestaña Fuera de anexo e Inmunosupresión (hasta 45 a en riesgo CISNS; confirmar SESPA).");
+  if (men4StillCatch) items.push("MenACWY: 1 dosis si no consta y tiene ≤18 a (cohorte del programa adolescente).");
+  else items.push("MenACWY: no se indica en adulto sano solo porque no la recibió a los 13 (esa dosis existe en Asturias desde 2019; barrido 15–18 a en 2020 = nacidos 2002–2005). Hoy: viaje, Hajj, asplenia, complemento, brote o ID — no por edad 34.");
+  items.push("Gripe: desde 60 a, o antes si riesgo / campaña. COVID: circular.");
+  if (years >= 18) items.push("HZ: 65 y 80 en anexo; ID o anti-JAK desde 18 a; ≥2 brotes: ver Adulto.");
+  return items;
+}
 function renderAge(raw) {
   const box = document.getElementById("ageResult");
   if (!box) return;
@@ -849,14 +974,20 @@ function renderAge(raw) {
   const rem = m % 12;
   const next = MILESTONES.filter(x => x.months > m).slice(0, 3);
   const last = [...MILESTONES].reverse().find(x => x.months <= m);
-  let html = `<p><strong>Edad:</strong> ${years} a + ${rem} m (${m} meses).</p>`;
-  if (last) html += `<p style="margin-top:.4rem"><strong>Último hito sistemático alcanzado:</strong> ${last.label} — ${last.v}</p>`;
+  let html = `<p><strong>Edad:</strong> ${years} a + ${rem} m (${m} meses). Nacido ${ymd(dt)}.</p>`;
+  html += `<div class="note" style="margin-top:.5rem">El anexo de 2025 no se aplica hacia atrás. «13 años = Tdpa + MenACWY» es lo que se pone <em>ahora</em> a quien cumple 13, no lo que recibió quien cumplió 13 en 2005.</div>`;
+  if (last) {
+    html += `<p style="margin-top:.45rem"><strong>Último hito del anexo <em>actual</em> (referencia, no cartilla):</strong> ${last.label} — ${last.v}</p>`;
+  }
+  html += "<p style='margin-top:.45rem'><strong>Qué mirar hoy en esta persona</strong> (no es una orden de vacunar):</p><ul>";
+  cohortNow(dt, years).forEach(t => { html += `<li>${t}</li>`; });
+  html += "</ul>";
   if (next.length) {
-    html += "<p style='margin-top:.45rem'><strong>Próximos hitos del anexo:</strong></p><ul>";
+    html += "<p class='muted' style='margin-top:.45rem'><strong>Próximas edades del anexo 2025</strong> (para quien las viva a partir de ahora):</p><ul>";
     next.forEach(x => { html += `<li>${x.label}: ${x.v}</li>`; });
     html += "</ul>";
-  } else html += "<p style='margin-top:.45rem'>A esta edad: rescates (Td, SRP, varicela) y campañas.</p>";
-  html += `<p class="muted" style="margin-top:.4rem">*Cohortes MenB ≥01/11/2022; RV ≥01/01/2025. Verificar HCE antes de citar.</p>`;
+  }
+  html += `<p class="muted" style="margin-top:.4rem">Confrontar HCE. Cohortes infantiles: MenB ≥01/11/2022; RV ≥01/01/2025; VNC20 desde 02/05/2024.</p>`;
   box.innerHTML = html;
 }
 function vacCard(v) {
@@ -941,7 +1072,7 @@ function bindPocket(root) {
   });
 }
 const GLOSSARY = {
-  VPH: "Virus del papiloma humano. Sistemática a los 10 años (1 dosis, ambos sexos). Rescate financiado hasta los 18 años: 1 dosis si inmunocompetente. ID (inmunodepresión): 3 dosis 0-2-6 meses.",
+  VPH: "Virus del papiloma humano. Anexo: 1 dosis a los 10 años y rescate 1 dosis hasta los 18. No hay (R) 19–59 para el sano. AEP recomienda 1 dosis hasta 25 (suele ser prescripción). HSH/prostitución (CISNS, hasta 45): 1 dosis ≤25 y 2 dosis desde 26. ID: 3 dosis 0-2-6.",
   ID: "Inmunodepresión o inmunosupresión (VIH, trasplante, tratamiento IS intenso, etc.). Cambia pautas: p. ej. VPH 3 dosis, no 1; precaución con vacunas vivas.",
   Hexa: "Hexavalente: DTPa + VPI + Hib + hepatitis B. En Asturias 2, 4 y 11 meses (no a los 6 meses).",
   DTPa: "Difteria, tétanos y tosferina (componente acelular) de carga infantil.",
