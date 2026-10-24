@@ -183,7 +183,15 @@ html: `
 <div class="card">
   <label for="dob">Fecha de nacimiento del paciente</label>
   <input id="dob" type="text" inputmode="numeric" placeholder="dd/mm/aaaa" maxlength="10" autocomplete="bday" aria-describedby="dobHint">
-  <p class="muted" id="dobHint" style="margin-top:.35rem">Escriba <strong>dd/mm/aaaa</strong> (día/mes/año). Ejemplo: 07/03/2018. No use el formato estadounidense mm/dd/aaaa.</p>
+  <p class="muted" id="dobHint" style="margin-top:.35rem">Escriba <strong>dd/mm/aaaa</strong> (día/mes/año). Ejemplo: 07/03/2018.</p>
+  <label for="escenario" style="margin-top:.6rem;display:block">Escenario</label>
+  <select id="escenario">
+    <option value="normal">Calendario / fecha de nacimiento</option>
+    <option value="migrante">Migrante o sin cartilla</option>
+    <option value="id">Inmunodeprimido</option>
+    <option value="sanitario">Personal sanitario</option>
+  </select>
+  <p style="margin-top:.5rem"><button type="button" id="btnListado">Generar listado para PDF</button></p>
   <div class="result" id="ageResult"></div>
 </div>
 <div class="card">
@@ -962,6 +970,64 @@ function cohortNow(dt, years) {
   if (years >= 18) items.push("HZ: 65 y 80 en anexo; ID o anti-JAK desde 18 a; ≥2 brotes: ver Adulto.");
   return items;
 }
+function listadoItems(dt, years, escenario) {
+  const iso = ymd(dt);
+  if (escenario === "sanitario") {
+    return [
+      "Gripe: 1 dosis anual de campaña (incluye estudiantes en prácticas).",
+      "Hepatitis B: 3 dosis 0-1-6 si no consta. Serología 1-2 meses tras la 3.ª. Anti-HBs ≥10 = respondedor, no recuerdos. Si <10: otra pauta de 3. Si sigue <10: no más dosis.",
+      "Td / Tdpa: completar hasta 5 dosis. Al menos 1 Tdpa en la vida adulta.",
+      "SRP: 2 dosis (o 1 si ya hay una) si no consta. Nacidos ES ≥1978 sin pauta. No si gestante o ID intensa.",
+      "Varicela: 2 dosis si no hay evidencia. Serología si duda.",
+      "COVID-19: según circular del año.",
+      "No por ser sanitario: VPH, MenACWY, VNC, HZ (siguen anexo / riesgo).",
+      "Solo si procede: HA (laboratorio / hepatopatía), MenACWY±MenB (asplenia, complemento), VPI de laboratorio."
+    ];
+  }
+  if (escenario === "migrante") {
+    const items = ["Regla: sin documento legible = no vacunado. No reiniciar pauta documentada.", "1.ª visita prioritaria: al menos SRP + VPI + Td/Tdpa."];
+    if (years < 7) items.push("Completar hexa o equivalentes, VNC, MenACWY, SRP ≥12 m, varicela ≥12 m. RV solo si cohorte y ventana. MenB solo ≥01/11/2022.");
+    else if (years <= 18) items.push("Tdpa + VPI; SRP 2 dosis; varicela 2 dosis si no evidencia; VPH 1 dosis (ID: 3); MenACWY si ≤18.");
+    else items.push("Td hasta 5 dosis. SRP 2 dosis. Varicela: serología. HB/HA según origen. VPH no del anexo. VNC si crónico o ≥86.");
+    return items;
+  }
+  if (escenario === "id") {
+    return [
+      "Vivas (SRP, varicela, RV, gripe nasal, VPO, FA, BCG): CI si IS intensa. Ideal ≥4 sem. antes de iniciar IS.",
+      "Inactivadas, conjugadas, recombinantes, ARNm, toxoides: sí (respuesta puede ser menor). Preferible ≥2 sem. antes.",
+      "VPH: siempre 3 dosis 0-2-6 desde los 9 a. No 1 dosis.",
+      "VNC: pauta de riesgo, no la del sano. Hib rescate ≥5 a si asplenia, complemento, VIH, eculizumab.",
+      "HB: serología; si anti-HBs <10, no respondedor / pauta reforzada.",
+      "Shingrix usable en ID. Anti-JAK: desde los 18 a (2 dosis).",
+      "Gripe anual inactivada (no LAIV). COVID según circular de ID. Nirsevimab si <2 a de alto riesgo.",
+      "Convivientes: gripe, SRP y varicela al día.",
+      "Tras suspender IS: vivas en general 3-6 meses (más si TPH, rituximab, Ig alta dosis)."
+    ];
+  }
+  return cohortNow(dt, years);
+}
+function printListado() {
+  const raw = (document.getElementById("dob") || {}).value || "";
+  const escenario = (document.getElementById("escenario") || {}).value || "normal";
+  const dt = parseDob(raw);
+  if (!dt) { alert("Fecha no válida. Use dd/mm/aaaa."); return; }
+  const m = ageMonths(dt);
+  if (m < 0) { alert("Fecha posterior a hoy."); return; }
+  const years = Math.floor(m / 12);
+  const rem = m % 12;
+  const labels = { normal: "Calendario / fecha de nacimiento", migrante: "Migrante o sin cartilla", id: "Inmunodeprimido", sanitario: "Personal sanitario" };
+  const items = listadoItems(dt, years, escenario).map(t => "<li>" + t + "</li>").join("");
+  const w = window.open("", "_blank");
+  if (!w) { alert("Permita ventanas emergentes para generar el listado."); return; }
+  w.document.write(`<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><title>Listado VacunAsturias</title>
+    <style>body{font:11pt system-ui,sans-serif;margin:16mm;color:#16323d}h1{color:#0b4f6c;font-size:16pt}ul{padding-left:1.1em}li{margin:.35em 0}.note{background:#fff6e8;padding:.6em;border-radius:6px;margin-top:1em;font-size:9pt}</style></head>
+    <body><h1>VacunAsturias · ${labels[escenario]}</h1>
+    <p>Nacimiento: ${ymd(dt)} · Edad: ${years} a + ${rem} m</p>
+    <ul>${items}</ul>
+    <p class="note">Apoyo a consulta. No sustituye BOPA, circular SESPA ni HCE. Confrontar cartilla. Anexo 19/02/2025.</p>
+    <script>window.onload=function(){window.print()}<\/script></body></html>`);
+  w.document.close();
+}
 function renderAge(raw) {
   const box = document.getElementById("ageResult");
   if (!box) return;
@@ -1048,6 +1114,8 @@ function setTab(id, filter) {
     });
     dob.addEventListener("change", () => renderAge(dob.value));
     if (dob.value) renderAge(dob.value);
+    const btnL = document.getElementById("btnListado");
+    if (btnL) btnL.addEventListener("click", printListado);
   }
   bindGlossary(document.getElementById("out"));
   bindPocket(document.getElementById("out"));
